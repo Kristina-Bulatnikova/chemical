@@ -1,0 +1,2573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ОГЭ Химия - Stranger Things Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--st-red: #ff0033;
+--st-dark: #0a0a0a;
+--st-darker: #050505;
+--st-gray: #1a1a1a;
+--st-neon: #ff3366;
+--st-text: #e0e0e0;
+--st-green: #00ff41;
+--st-yellow: #ffcc00;
+}
+body {
+background-color: var(--st-darker);
+color: var(--st-text);
+font-family: 'Roboto Mono', monospace;
+overflow-x: hidden;
+min-height: 100vh;
+position: relative;
+}
+body::before {
+content: '';
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+pointer-events: none;
+z-index: 999;
+opacity: 0.3;
+}
+.particles {
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+pointer-events: none;
+background-image:
+radial-gradient(2px 2px at 20% 30%, var(--st-red), transparent),
+radial-gradient(2px 2px at 60% 70%, var(--st-neon), transparent),
+radial-gradient(1px 1px at 50% 50%, rgba(255,0,51,0.5), transparent);
+background-size: 200% 200%;
+animation: particleFloat 10s ease-in-out infinite;
+opacity: 0.4;
+z-index: 0;
+}
+@keyframes particleFloat {
+0%, 100% { transform: translateY(0) scale(1); }
+50% { transform: translateY(-20px) scale(1.1); }
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+.main-title { text-align: center; margin: 40px 0 60px; }
+.main-title h1 {
+font-family: 'Bangers', cursive;
+font-size: clamp(2.5rem, 8vw, 5rem);
+color: var(--st-red);
+text-transform: uppercase;
+letter-spacing: 8px;
+text-shadow: 0 0 10px var(--st-red), 0 0 20px var(--st-red), 0 0 40px var(--st-red), 0 0 80px var(--st-red);
+animation: titlePulse 3s ease-in-out infinite;
+cursor: pointer;
+}
+@keyframes titlePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
+.subtitle { font-size: 1.2rem; color: var(--st-neon); margin-top: 10px; letter-spacing: 4px; text-transform: uppercase; opacity: 0.8; }
+.main-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+.topic-card {
+background: linear-gradient(135deg, var(--st-gray) 0%, var(--st-dark) 100%);
+border: 2px solid var(--st-red);
+border-radius: 10px;
+padding: 30px;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 0 20px rgba(255,0,51,0.2);
+}
+.topic-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 10px 40px rgba(255,0,51,0.4); }
+.topic-number { font-size: 3rem; font-weight: bold; color: var(--st-red); text-shadow: 0 0 10px var(--st-red); margin-bottom: 10px; }
+.topic-title { font-size: 1.3rem; color: var(--st-text); line-height: 1.5; }
+.topic-card:hover .topic-title { color: var(--st-neon); }
+.subtopics-page { display: none; }
+.back-button {
+background: transparent;
+border: 2px solid var(--st-red);
+color: var(--st-red);
+padding: 15px 30px;
+font-family: 'Roboto Mono', monospace;
+font-size: 1rem;
+cursor: pointer;
+margin-bottom: 30px;
+transition: all 0.3s;
+text-transform: uppercase;
+letter-spacing: 2px;
+border-radius: 5px;
+}
+.back-button:hover { background: var(--st-red); color: var(--st-dark); box-shadow: 0 0 30px var(--st-red); }
+.subtopics-list { display: flex; flex-direction: column; gap: 15px; }
+.subtopic-item {
+background: var(--st-gray);
+border-left: 4px solid var(--st-red);
+padding: 20px 30px;
+cursor: pointer;
+transition: all 0.3s;
+display: flex;
+align-items: center;
+gap: 20px;
+}
+.subtopic-item:hover { background: var(--st-dark); border-left-color: var(--st-neon); padding-left: 40px; box-shadow: -5px 0 20px rgba(255,0,51,0.3); }
+.subtopic-number { color: var(--st-red); font-weight: bold; min-width: 60px; }
+.subtopic-title { flex: 1; }
+.subtopic-item:hover .subtopic-number, .subtopic-item:hover .subtopic-title { color: var(--st-neon); }
+.game-screen { display: none; }
+.vhs-health-bar {
+background: var(--st-gray);
+border: 3px solid var(--st-red);
+border-radius: 8px;
+padding: 15px 20px;
+margin-bottom: 30px;
+position: relative;
+box-shadow: 0 0 20px rgba(255,0,51,0.3), inset 0 0 10px rgba(0,0,0,0.5);
+}
+.vhs-health-bar::before {
+content: '▶ REC';
+position: absolute;
+top: -12px; left: 15px;
+background: var(--st-darker);
+padding: 0 10px;
+color: var(--st-red);
+font-size: 0.8rem;
+font-weight: bold;
+letter-spacing: 2px;
+animation: recBlink 1s infinite;
+}
+@keyframes recBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.vhs-label { font-size: 0.75rem; color: var(--st-neon); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.8; }
+.health-segments { display: flex; gap: 8px; align-items: center; }
+.health-segment {
+flex: 1; height: 30px;
+background: var(--st-red);
+border-radius: 3px;
+position: relative;
+transition: all 0.5s;
+box-shadow: 0 0 10px var(--st-red);
+overflow: hidden;
+}
+.health-segment::after {
+content: '';
+position: absolute;
+top: 0; left: 0;
+width: 100%; height: 100%;
+background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+animation: vhsScan 2s linear infinite;
+}
+@keyframes vhsScan { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.health-segment.lost { background: #333; box-shadow: none; animation: segmentGlitch 0.5s ease-out; }
+.health-segment.lost::after { display: none; }
+@keyframes segmentGlitch {
+0% { transform: translateX(0); filter: hue-rotate(0deg); }
+20% { transform: translateX(-10px); filter: hue-rotate(90deg); }
+40% { transform: translateX(10px); filter: hue-rotate(180deg); }
+60% { transform: translateX(-5px); filter: hue-rotate(270deg); }
+80% { transform: translateX(5px); filter: hue-rotate(360deg); }
+100% { transform: translateX(0); filter: hue-rotate(0deg); }
+}
+.health-counter { text-align: right; margin-top: 8px; font-size: 0.85rem; color: var(--st-neon); letter-spacing: 2px; }
+.question-card {
+background: var(--st-gray);
+border: 2px solid var(--st-red);
+border-radius: 10px;
+padding: 30px;
+margin-bottom: 20px;
+box-shadow: 0 0 30px rgba(255,0,51,0.2);
+}
+.question-number { color: var(--st-red); font-size: 0.9rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; }
+.question-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 25px; color: var(--st-text); }
+.answers-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+.answer-option {
+background: var(--st-dark);
+border: 2px solid #333;
+border-radius: 8px;
+padding: 15px 20px;
+cursor: pointer;
+transition: all 0.3s;
+display: flex;
+align-items: flex-start;
+gap: 12px;
+}
+.answer-option:hover { border-color: var(--st-neon); background: var(--st-gray); }
+.answer-option.selected { border-color: var(--st-yellow); background: rgba(255,204,0,0.1); }
+.answer-option.correct { border-color: var(--st-green); background: rgba(0,255,65,0.1); }
+.answer-option.wrong { border-color: var(--st-red); background: rgba(255,0,51,0.1); }
+.answer-checkbox {
+width: 20px; height: 20px;
+border: 2px solid #555;
+border-radius: 3px;
+flex-shrink: 0;
+margin-top: 2px;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s;
+}
+.answer-option.selected .answer-checkbox { border-color: var(--st-yellow); background: var(--st-yellow); }
+.answer-option.selected .answer-checkbox::after { content: '✓'; color: var(--st-dark); font-weight: bold; }
+.answer-option.correct .answer-checkbox { border-color: var(--st-green); background: var(--st-green); }
+.answer-option.correct .answer-checkbox::after { content: '✓'; color: var(--st-dark); font-weight: bold; }
+.answer-option.wrong .answer-checkbox { border-color: var(--st-red); background: var(--st-red); }
+.answer-option.wrong .answer-checkbox::after { content: '✗'; color: white; font-weight: bold; }
+.answer-text { flex: 1; line-height: 1.5; }
+.game-controls { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+.btn {
+padding: 15px 30px;
+font-family: 'Roboto Mono', monospace;
+font-size: 1rem;
+cursor: pointer;
+border: 2px solid;
+border-radius: 5px;
+text-transform: uppercase;
+letter-spacing: 2px;
+transition: all 0.3s;
+background: transparent;
+}
+.btn-check { border-color: var(--st-green); color: var(--st-green); }
+.btn-check:hover { background: var(--st-green); color: var(--st-dark); box-shadow: 0 0 30px var(--st-green); }
+.btn-hint { border-color: var(--st-yellow); color: var(--st-yellow); }
+.btn-hint:hover { background: var(--st-yellow); color: var(--st-dark); box-shadow: 0 0 30px var(--st-yellow); }
+.btn-next { border-color: var(--st-neon); color: var(--st-neon); }
+.btn-next:hover { background: var(--st-neon); color: var(--st-dark); box-shadow: 0 0 30px var(--st-neon); }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.hint-box {
+background: rgba(255,204,0,0.1);
+border: 2px solid var(--st-yellow);
+border-radius: 8px;
+padding: 20px;
+margin-top: 20px;
+display: none;
+}
+.hint-box.show { display: block; animation: fadeIn 0.5s; }
+.hint-title { color: var(--st-yellow); font-weight: bold; margin-bottom: 10px; letter-spacing: 2px; }
+.hint-text { color: var(--st-text); line-height: 1.6; }
+.result-screen { display: none; text-align: center; padding: 60px 30px; }
+.result-screen.show { display: block; animation: fadeIn 1s; }
+.result-title { font-family: 'Bangers', cursive; font-size: 3rem; margin-bottom: 20px; letter-spacing: 5px; }
+.result-title.win { color: var(--st-green); text-shadow: 0 0 20px var(--st-green), 0 0 40px var(--st-green); }
+.result-title.lose { color: var(--st-red); text-shadow: 0 0 20px var(--st-red), 0 0 40px var(--st-red); animation: titleShake 0.5s; }
+@keyframes titleShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+.result-stats { font-size: 1.2rem; margin-bottom: 30px; line-height: 2; }
+.result-stats span { color: var(--st-neon); font-weight: bold; }
+.vhs-static {
+position: fixed;
+top: 0; left: 0;
+width: 100%; height: 100%;
+pointer-events: none;
+z-index: 1000;
+opacity: 0;
+background: repeating-linear-gradient(0deg, rgba(255,255,255,0.1) 0px, transparent 1px, transparent 2px, rgba(0,0,0,0.1) 3px);
+}
+.vhs-static.active { opacity: 1; animation: staticFlicker 0.3s; }
+@keyframes staticFlicker {
+0% { opacity: 0; } 10% { opacity: 0.8; } 20% { opacity: 0.2; } 30% { opacity: 0.9; }
+40% { opacity: 0.1; } 50% { opacity: 0.7; } 60% { opacity: 0.3; } 70% { opacity: 0.8; }
+80% { opacity: 0.2; } 90% { opacity: 0.6; } 100% { opacity: 0; }
+}
+.audio-control {
+position: fixed;
+bottom: 30px; right: 30px;
+background: var(--st-gray);
+border: 2px solid var(--st-red);
+border-radius: 50%;
+width: 60px; height: 60px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 1.5rem;
+transition: all 0.3s;
+z-index: 1000;
+box-shadow: 0 0 20px rgba(255,0,51,0.3);
+}
+.audio-control:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--st-red); }
+.audio-control.muted { border-color: #666; opacity: 0.5; }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--st-darker); }
+::-webkit-scrollbar-thumb { background: var(--st-red); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--st-neon); }
+.hidden { display: none !important; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 768px) {
+.main-menu { grid-template-columns: 1fr; }
+.topic-card { padding: 20px; }
+.audio-control { bottom: 20px; right: 20px; width: 50px; height: 50px; }
+.question-card { padding: 20px; }
+.health-segment { height: 25px; }
+}
+.task-text {
+background: rgba(255, 204, 0, 0.05);
+border-left: 4px solid var(--st-yellow);
+padding: 15px 20px;
+margin-bottom: 20px;
+border-radius: 0 8px 8px 0;
+line-height: 1.6;
+font-size: 0.95rem;
+}
+.numeric-input-container {
+display: flex;
+align-items: center;
+gap: 15px;
+margin: 20px 0;
+flex-wrap: wrap;
+}
+.numeric-input {
+background: var(--st-dark);
+border: 2px solid var(--st-yellow);
+border-radius: 8px;
+padding: 15px 20px;
+font-family: 'Roboto Mono', monospace;
+font-size: 1.2rem;
+color: var(--st-text);
+width: 200px;
+transition: all 0.3s;
+}
+.numeric-input:focus {
+outline: none;
+border-color: var(--st-neon);
+box-shadow: 0 0 20px rgba(255, 51, 102, 0.4);
+}
+.numeric-input.correct {
+border-color: var(--st-green);
+background: rgba(0, 255, 65, 0.1);
+}
+.numeric-input.wrong {
+border-color: var(--st-red);
+background: rgba(255, 0, 51, 0.1);
+}
+.input-unit {
+color: var(--st-neon);
+font-size: 1.1rem;
+font-weight: bold;
+}
+.input-hint {
+font-size: 0.85rem;
+color: var(--st-neon);
+margin-top: 10px;
+opacity: 0.8;
+}
+.answers-table {
+width: 100%;
+border-collapse: collapse;
+margin-bottom: 25px;
+}
+.answers-table th,
+.answers-table td {
+border: 2px solid var(--st-red);
+padding: 12px;
+text-align: center;
+}
+.answers-table th {
+background: var(--st-gray);
+color: var(--st-neon);
+text-transform: uppercase;
+letter-spacing: 2px;
+font-size: 0.85rem;
+}
+.matching-select {
+background: var(--st-dark);
+border: 2px solid var(--st-yellow);
+border-radius: 5px;
+padding: 10px;
+font-family: 'Roboto Mono', monospace;
+font-size: 1rem;
+color: var(--st-text);
+cursor: pointer;
+min-width: 80px;
+transition: all 0.3s;
+}
+.matching-select:hover {
+border-color: var(--st-neon);
+box-shadow: 0 0 15px rgba(255, 51, 102, 0.3);
+}
+.matching-select.correct {
+border-color: var(--st-green);
+background: rgba(0, 255, 65, 0.1);
+}
+.matching-select.wrong {
+border-color: var(--st-red);
+background: rgba(255, 0, 51, 0.1);
+}
+.matching-arrow {
+color: var(--st-neon);
+font-size: 1.5rem;
+animation: arrowPulse 2s infinite;
+}
+@keyframes arrowPulse {
+0%, 100% { opacity: 1; transform: translateX(0); }
+50% { opacity: 0.5; transform: translateX(5px); }
+}
+</style>
+</head>
+<body>
+<div class="particles"></div>
+<div class="vhs-static" id="vhsStatic"></div>
+<div class="container">
+<div id="mainMenu">
+<div class="main-title">
+<h1>ОГЭ ХИМИЯ</h1>
+<div class="subtitle">Stranger Things Edition</div>
+</div>
+<div class="main-menu">
+<div class="topic-card" onclick="openTopic(1)"><div class="topic-number">01</div><div class="topic-title">Первоначальные химические понятия</div></div>
+<div class="topic-card" onclick="openTopic(2)"><div class="topic-number">02</div><div class="topic-title">Периодический закон и Периодическая система</div></div>
+<div class="topic-card" onclick="openTopic(3)"><div class="topic-number">03</div><div class="topic-title">Строение вещества</div></div>
+<div class="topic-card" onclick="openTopic(4)"><div class="topic-number">04</div><div class="topic-title">Важнейшие представители неорганических веществ</div></div>
+<div class="topic-card" onclick="openTopic(5)"><div class="topic-number">05</div><div class="topic-title">Химические реакции</div></div>
+<div class="topic-card" onclick="openTopic(6)"><div class="topic-number">06</div><div class="topic-title">Химия и окружающая среда</div></div>
+<div class="topic-card" onclick="openTopic(7)"><div class="topic-number">07</div><div class="topic-title">Расчёты по химическим формулам и уравнениям</div></div>
+</div>
+</div>
+<div id="topic1" class="subtopics-page">
+<button class="back-button" onclick="backToMenu()">← Назад в меню</button>
+<div class="main-title"><h2>Тема 1</h2><div class="subtitle">Первоначальные химические понятия</div></div>
+<div class="subtopics-list">
+<div class="subtopic-item" onclick="startGame('1.1')"><span class="subtopic-number">1.1</span><span class="subtopic-title">Чистые вещества и смеси. Способы разделения смесей</span></div>
+<div class="subtopic-item" onclick="startGame('1.2')"><span class="subtopic-number">1.2</span><span class="subtopic-title">Атомы и молекулы. Химические элементы. Простые и сложные вещества</span></div>
+<div class="subtopic-item" onclick="startGame('1.3')"><span class="subtopic-number">1.3</span><span class="subtopic-title">Химическая формула. Валентность. Степень окисления</span></div>
+<div class="subtopic-item" onclick="startGame('1.4')"><span class="subtopic-number">1.4</span><span class="subtopic-title">Закон постоянства состава. Атомная и молекулярная масса</span></div>
+<div class="subtopic-item" onclick="startGame('1.6')"><span class="subtopic-number">1.6</span><span class="subtopic-title">Физические и химические явления. Химические уравнения</span></div>
+</div>
+</div>
+<div id="topic2" class="subtopics-page">
+<button class="back-button" onclick="backToMenu()">← Назад в меню</button>
+<div class="main-title"><h2>Тема 2</h2><div class="subtitle">Периодический закон и Периодическая система</div></div>
+<div class="subtopics-list">
+<div class="subtopic-item" onclick="openSubtopic('2.1')"><span class="subtopic-number">2.1</span><span class="subtopic-title">Периодический закон. Периоды и группы</span></div>
+<div class="subtopic-item" onclick="openSubtopic('2.2')"><span class="subtopic-number">2.2</span><span class="subtopic-title">Строение атомов. Изотопы. Электроны</span></div>
+<div class="subtopic-item" onclick="openSubtopic('2.3')"><span class="subtopic-number">2.3</span><span class="subtopic-title">Закономерности изменения свойств элементов</span></div>
+</div>
+</div>
+<div id="topic3" class="subtopics-page">
+<button class="back-button" onclick="backToMenu()">← Назад в меню</button>
+<div class="main-title"><h2>Тема 3</h2><div class="subtitle">Строение вещества</div></div>
+<div class="subtopics-list">
+<div class="subtopic-item" onclick="openSubtopic('3.1')"><span class="subtopic-number">3.1</span><span class="subtopic-title">Химическая связь. Ковалентная, ионная, металлическая</span></div>
+<div class="subtopic-item" onclick="openSubtopic('3.2')"><span class="subtopic-number">3.2</span><span class="subtopic-title">Типы кристаллических решёток</span></div>
+</div>
+</div>
+<div id="topic4" class="subtopics-page">
+<button class="back-button" onclick="backToMenu()">← Назад в меню</button>
+<div class="main-title"><h2>Тема 4</h2><div class="subtitle">Неорганические вещества</div></div>
+<div class="subtopics-list">
+<div class="subtopic-item" onclick="openSubtopic('4.1')"><span class="subtopic-number">4.1</span><span class="subtopic-title">Классификация неорганических соединений</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.2')"><span class="subtopic-number">4.2</span><span class="subtopic-title">Свойства неметаллов</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.3')"><span class="subtopic-number">4.3</span><span class="subtopic-title">Свойства металлов</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.4')"><span class="subtopic-number">4.4</span><span class="subtopic-title">Водородные соединения неметаллов</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.5')"><span class="subtopic-number">4.5</span><span class="subtopic-title">Оксиды неметаллов</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.6')"><span class="subtopic-number">4.6</span><span class="subtopic-title">Оксиды металлов</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.7')"><span class="subtopic-number">4.7</span><span class="subtopic-title">Основания и амфотерные гидроксиды</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.8')"><span class="subtopic-number">4.8</span><span class="subtopic-title">Кислоты</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.9')"><span class="subtopic-number">4.9</span><span class="subtopic-title">Соли</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.10')"><span class="subtopic-number">4.10</span><span class="subtopic-title">Получение газов в лаборатории</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.11')"><span class="subtopic-number">4.11</span><span class="subtopic-title">Получение веществ в промышленности</span></div>
+<div class="subtopic-item" onclick="openSubtopic('4.12')"><span class="subtopic-number">4.12</span><span class="subtopic-title">Генетическая связь между классами</span></div>
+</div>
+</div>
+<div id="topic5" class="subtopics-page">
+<button class="back-button" onclick="backToMenu()">← Назад в меню</button>
+<div class="main-title"><h2>Тема 5</h2><div class="subtitle">Химические реакции</div></div>
+<div class="subtopics-list">
+<div class="subtopic-item" onclick="openSubtopic('5.1')"><span class="subtopic-number">5.1</span><span class="subtopic-title">Классификация химических реакций</span></div>
+<div class="subtopic-item" onclick="openSubtopic('5.2')"><span class="subtopic-number">5.2</span><span class="subtopic-title">Тепловой эффект. Термохимические уравнения</span></div>
+<div class="subtopic-item" onclick="openSubtopic('5.3')"><span class="subtopic-number">5.3</span><span class="subtopic-title">Окислительно-восстановительные реакции</span></div>
+<div class="subtopic-item" onclick="openSubtopic('5.4')"><span class="subtopic-number">5.4</span><span class="subtopic-title">Теория электролитической диссоциации</span></div>
+<div class="subtopic-item" onclick="openSubtopic('5.5')"><span class="subtopic-number">5.5</span><span class="subtopic-title">Реакции ионного обмена</span></div>
+</div>
+</div>
+<div id="topic6" class="subtopics-page">
+<button class="back-button" onclick="backToMenu()">← Назад в меню</button>
+<div class="main-title"><h2>Тема 6</h2><div class="subtitle">Химия и окружающая среда</div></div>
+<div class="subtopics-list">
+<div class="subtopic-item" onclick="openSubtopic('6.1')"><span class="subtopic-number">6.1</span><span class="subtopic-title">Вещества в повседневной жизни</span></div>
+<div class="subtopic-item" onclick="openSubtopic('6.2')"><span class="subtopic-number">6.2</span><span class="subtopic-title">Химическое загрязнение окружающей среды</span></div>
+<div class="subtopic-item" onclick="openSubtopic('6.3')"><span class="subtopic-number">6.3</span><span class="subtopic-title">Применение неметаллов и металлов</span></div>
+<div class="subtopic-item" onclick="openSubtopic('6.4')"><span class="subtopic-number">6.4</span><span class="subtopic-title">Природные источники углеводородов</span></div>
+<div class="subtopic-item" onclick="openSubtopic('6.5')"><span class="subtopic-number">6.5</span><span class="subtopic-title">Органические вещества</span></div>
+</div>
+</div>
+<div id="topic7" class="subtopics-page">
+<button class="back-button" onclick="backToMenu()">← Назад в меню</button>
+<div class="main-title"><h2>Тема 7</h2><div class="subtitle">Расчёты по химическим формулам и уравнениям</div></div>
+<div class="subtopics-list">
+<div class="subtopic-item" onclick="openSubtopic('7.1')"><span class="subtopic-number">7.1</span><span class="subtopic-title">Расчёты по формулам химических соединений</span></div>
+<div class="subtopic-item" onclick="openSubtopic('7.2')"><span class="subtopic-number">7.2</span><span class="subtopic-title">Расчёты массы/массовой доли в растворе</span></div>
+<div class="subtopic-item" onclick="openSubtopic('7.3')"><span class="subtopic-number">7.3</span><span class="subtopic-title">Расчёты по химическим уравнениям</span></div>
+</div>
+</div>
+<div id="gameScreen" class="game-screen">
+<button class="back-button" onclick="exitGame()">← Выйти из игры</button>
+<div class="vhs-health-bar">
+<div class="vhs-label">Signal Strength</div>
+<div class="health-segments" id="healthSegments">
+<div class="health-segment" data-index="0"></div>
+<div class="health-segment" data-index="1"></div>
+<div class="health-segment" data-index="2"></div>
+<div class="health-segment" data-index="3"></div>
+<div class="health-segment" data-index="4"></div>
+</div>
+<div class="health-counter" id="healthCounter">LIVES: 5/5</div>
+</div>
+<div class="question-card" id="questionCard">
+<div class="question-number" id="questionNumber">ЗАДАНИЕ 1/5</div>
+<div class="question-text" id="questionText"></div>
+<div class="answers-list" id="answersList"></div>
+</div>
+<div class="hint-box" id="hintBox">
+<div class="hint-title">⚠ ПОДСКАЗКА</div>
+<div class="hint-text" id="hintText"></div>
+</div>
+<div class="game-controls">
+<button class="btn btn-check" id="btnCheck" onclick="checkAnswer()">Проверить</button>
+<button class="btn btn-hint" id="btnHint" onclick="showHint()">Подсказка</button>
+<button class="btn btn-next hidden" id="btnNext" onclick="nextQuestion()">Далее →</button>
+</div>
+<div class="result-screen" id="resultScreen">
+<div class="result-title" id="resultTitle"></div>
+<div class="result-stats" id="resultStats"></div>
+<button class="btn btn-next" onclick="restartGame()">Играть снова</button>
+<button class="btn btn-check" onclick="backToMenu()" style="margin-left: 15px;">В меню</button>
+</div>
+</div>
+</div>
+<button class="audio-control" id="audioToggle" onclick="toggleAudio()">🔊</button>
+<script>
+const questionsDB = {
+'1.1': [
+{
+question: 'Выберите два высказывания, в которых говорится о литии как о простом веществе.',
+answers: [
+'Литий – наименее активный среди щелочных металлов.',
+'Соли, содержащие литий, окрашивают пламя в карминово-красный цвет.',
+'При попадании на влажную кожу литий вызывает ожоги.',
+'Электроотрицательность у лития больше, чем у натрия.',
+'Оксид лития является основным оксидом.'
+],
+correct: [0, 2],
+hint: 'Простое вещество — это металл Li. Ищите утверждения о физических и химических свойствах самого лития-металла.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о кальции как о простом веществе.',
+answers: [
+'При реакции кальция с водой образуется щёлочь.',
+'Кальций быстро покрывается оксидной плёнкой.',
+'Кальций входит в состав известняка.',
+'Массовая доля кальция в негашёной извести составляет 71,4%.',
+'Важным источником кальция среди продуктов питания служит творог.'
+],
+correct: [0, 1],
+hint: 'Простое вещество — металл Ca. Утверждения о химических свойствах самого кальция-металла.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о хлоре как о химическом элементе.',
+answers: [
+'Природный хлор имеет два стабильных изотопа: ³⁵Cl и ³⁷Cl.',
+'Хлор при нормальных условиях – ядовитый газ жёлто-зелёного цвета.',
+'Хлор реагирует со щелочами.',
+'В состав хлорной извести входят кальций, хлор и кислород.',
+'Впервые хлор был получен в 1774 г. химиком Карлом Вильгельмом Шееле.'
+],
+correct: [0, 3],
+hint: 'Химический элемент — это вид атомов. Ищите утверждения об атомном составе, изотопах, содержании в соединениях.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится об иоде как о простом веществе.',
+answers: [
+'Иод используется в галогеновых лампах.',
+'Недостаток иода в организме человека приводит к заболеваниям щитовидной железы.',
+'Иод хорошо растворяется в этиловом спирте.',
+'Морские водоросли содержат довольно много иода.',
+'Ядро атома иода содержит 53 протона.'
+],
+correct: [0, 2],
+hint: 'Простое вещество I₂. Ищите утверждения о применении и физических свойствах иода как вещества.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится об алюминии как о простом веществе.',
+answers: [
+'Для начала реакции алюминия с иодом требуется добавить несколько капель воды.',
+'Радиус атома у алюминия больше, чем у кремния.',
+'По распространённости в природе алюминий занимает третье место среди всех химических элементов.',
+'Высший оксид алюминия имеет формулу Al₂O₃.',
+'Алюминий получают электролизом расплава его оксида в криолите.'
+],
+correct: [0, 4],
+hint: 'Простое вещество — металл Al. Утверждения о химических свойствах и получении металлического алюминия.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о хлоре как о простом веществе.',
+answers: [
+'Хлор в промышленности получают электролизом расплава хлорида натрия.',
+'Электроотрицательность хлора по шкале Полинга равна 3,1.',
+'В Первую мировую войну хлор использовался как боевое отравляющее вещество.',
+'Высший оксид и гидроксид хлора проявляют кислотные свойства.',
+'В организме человека и животных хлор содержится в основном в межклеточных жидкостях.'
+],
+correct: [0, 2],
+hint: 'Простое вещество Cl₂ — газ. Ищите утверждения о получении и применении хлора-газа.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о литии как о химическом элементе.',
+answers: [
+'Литий обладает наименьшей плотностью среди металлов.',
+'При реакции лития с водой образуется щёлочь.',
+'Литий получают электролизом расплавов его солей.',
+'Среднее содержание лития в морской воде составляет 0,17 мг/л.',
+'Основные месторождения лития находятся в Южной Америке.'
+],
+correct: [3, 4],
+hint: 'Химический элемент Li — атомы. Ищите утверждения о содержании в природе, месторождениях.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о фторе как о простом веществе.',
+answers: [
+'Фтор не проявляет положительную степень окисления.',
+'Фтор входит в состав минерала флюорита.',
+'При нормальных условиях фтор представляет собой бледно-жёлтый газ.',
+'Фтор способен вытеснять другие галогены из их солей.',
+'Среди растений относительно богаты фтором чечевица и лук.'
+],
+correct: [2, 3],
+hint: 'Простое вещество F₂ — газ. Ищите утверждения о физических свойствах и химических реакциях фтора-газа.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о железе как о простом веществе.',
+answers: [
+'Степень окисления железа в пирите равна +2.',
+'В состав стали входит не менее 45% железа и от 0,02% до 2,14% углерода.',
+'Железо, кремний и кислород входят в состав минерала фаялит.',
+'В Периодической системе химических элементов Д.И. Менделеева железо находится в 4 периоде, в побочной подгруппе VIII группы.',
+'Плотность железа при нормальных условиях составляет 7,874 г/см³.'
+],
+correct: [1, 4],
+hint: 'Простое вещество — металл Fe. Ищите утверждения о составе сплавов и физических свойствах железа.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о магнии как о простом веществе.',
+answers: [
+'Кристаллы фторида магния используют для изготовления оптических линз.',
+'Содержание магния в морской воде составляет 0,13% по массе.',
+'В соединениях магний проявляет положительную степень окисления.',
+'Магний используют для получения лёгких и сверхлёгких литейных сплавов.',
+'Магний вытесняет водород из воды.'
+],
+correct: [3, 4],
+hint: 'Простое вещество — металл Mg. Ищите утверждения о применении и химических свойствах металлического магния.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о хлоре как о химическом элементе.',
+answers: [
+'При реакции хлора с железом образуется хлорид железа(III).',
+'Впервые хлор был получен в 1774 г. шведским учёным К. Шееле.',
+'Хлор – самый распространённый галоген в земной коре.',
+'Хлор входит в состав поваренной соли.',
+'Хлор непосредственно реагирует почти со всеми металлами.'
+],
+correct: [2, 3],
+hint: 'Химический элемент Cl — атомы. Ищите утверждения о распространённости и содержании в соединениях.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится об алюминии как о химическом элементе.',
+answers: [
+'Реакция алюминия с кислородом сопровождается выделением большого количества энергии.',
+'Алюминий покрыт оксидной плёнкой.',
+'По распространённости в природе алюминий занимает первое место среди металлов.',
+'Высшая степень окисления алюминия равна +3.',
+'Алюминий получают электролизом расплава его оксида в криолите.'
+],
+correct: [2, 3],
+hint: 'Химический элемент Al — атомы. Утверждения о распространённости элемента и степени окисления.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о фосфоре как о химическом элементе.',
+answers: [
+'Белый фосфор плохо растворяется в воде.',
+'Фосфор входит в состав фосфолипидов – важнейших биологических соединений.',
+'Фосфор реагирует с концентрированной азотной кислотой с выделением бурого газа.',
+'Красный фосфор применяется в производстве спичек.',
+'Двойной суперфосфат применяют для устранения недостатка фосфора в почве.'
+],
+correct: [1, 4],
+hint: 'Химический элемент P — атомы. Ищите утверждения о содержании в соединениях и удобрениях.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о фторе как о химическом элементе.',
+answers: [
+'Фтор имеет наибольшее значение электроотрицательности.',
+'В атмосфере фтора горит даже вода.',
+'Фтор не образует оксидов.',
+'Впервые фтор был получен А. Муассаном в 1886 г.',
+'Фтор является сильным окислителем.'
+],
+correct: [0, 2],
+hint: 'Химический элемент F — атомы. Ищите утверждения о свойствах атомов фтора.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о кальции как о химическом элементе.',
+answers: [
+'Плотность кальция составляет 1,55 г/см³.',
+'Кальций быстро покрывается оксидной плёнкой.',
+'Кальций активно реагирует с водой.',
+'Массовая доля кальция в карбонате кальция составляет 40%.',
+'Важным источником кальция среди продуктов питания служат молочные продукты.'
+],
+correct: [3, 4],
+hint: 'Химический элемент Ca — атомы. Ищите утверждения о содержании в соединениях и продуктах.'
+}
+],
+'1.2': [
+{
+question: 'Выберите два утверждения, в которых говорится о хлоре как о простом веществе.',
+answers: [
+'Поваренная соль содержит хлор.',
+'Хлор – сильный окислитель.',
+'Хлор реагирует даже с золотом.',
+'Хлор входит в состав минерала галита.',
+'В хлориде железа(III) по сравнению с хлоридом железа(II) содержится больше хлора.'
+],
+correct: [1, 2],
+hint: 'Простое вещество Cl₂ — это молекулярное вещество. Ищите утверждения о химических свойствах хлора-газа.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о кальции как о химическом элементе.',
+answers: [
+'Впервые кальций был получен Г. Дэви в 1808 г.',
+'Сплав кальция с цинком используется в производстве пенобетона.',
+'Кальций наряду с углеродом и кислородом входит в состав мела.',
+'Яичная скорлупа содержит довольно много кальция.',
+'Кальций получают электролизом расплава его хлорида.'
+],
+correct: [2, 3],
+hint: 'Химический элемент — это вид атомов. Ищите утверждения о содержании кальция в соединениях.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о литии как о простом веществе.',
+answers: [
+'Литий – наименее активный среди щелочных металлов.',
+'Соли, содержащие литий, окрашивают пламя в карминово-красный цвет.',
+'При попадании на влажную кожу литий вызывает ожоги.',
+'Электроотрицательность у лития больше, чем у натрия.',
+'Оксид лития является основным оксидом.'
+],
+correct: [0, 2],
+hint: 'Простое вещество — металл Li. Утверждения о физических и химических свойствах самого металла.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о кальции как о химическом элементе.',
+answers: [
+'Плотность кальция составляет 1,55 г/см³.',
+'В подростковом возрасте потребление достаточного количества кальция очень важно, поскольку интенсивно растёт скелет.',
+'Большая часть кальция содержится в составе силикатов и алюмосиликатов различных горных пород.',
+'Кальций получают электролизом расплава хлорида кальция.',
+'При нагревании на воздухе или в кислороде кальций воспламеняется.'
+],
+correct: [1, 2],
+hint: 'Химический элемент Ca — это атомы кальция. Ищите утверждения о содержании в организме, горных породах.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о хлоре как о простом веществе.',
+answers: [
+'Хлор при нормальных условиях – ядовитый газ желтовато-зелёного цвета.',
+'Самые большие запасы хлора содержатся в воде морей и океанов.',
+'Газообразный хлор относительно легко сжижается.',
+'Мышечная ткань человека содержит 0,20 – 0,52% хлора.',
+'Ежедневно с пищей человек получает 3 – 6 г хлора.'
+],
+correct: [0, 2],
+hint: 'Простое вещество Cl₂ — газ. Ищите утверждения о физических свойствах хлора-газа.'
+},
+{
+question: 'Выберите два утверждения, в которых выделенное жирным шрифтом слово обозначает простое вещество.',
+answers: [
+'В медицине применяют спиртовой раствор иода.',
+'Метан образует взрывоопасную смесь с воздухом.',
+'В состав многих парфюмерных изделий входит глицерин.',
+'В сельском хозяйстве серу применяют в качестве фунгицида.',
+'Озон образуется при пропускании электрического разряда через воздух.'
+],
+correct: [0, 3, 4],
+hint: 'Простое вещество — состоит из атомов одного элемента. Иод (I₂), сера (S), озон (O₃) — простые вещества.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о кремнии как о простом веществе.',
+answers: [
+'Чаще всего в природе кремний встречается в виде кремнезёма.',
+'В промышленности кремний получают, восстанавливая расплав SiO₂ коксом.',
+'При нагревании кремния с металлами могут образовываться их соединения – силициды.',
+'Некоторые растения могут накапливать большие запасы кремния.',
+'По распространённости в земной коре кремний занимает второе место после кислорода.'
+],
+correct: [2],
+hint: 'Простое вещество Si — кристаллический кремний. Утверждение 3 о реакции простого вещества с металлами.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о сере как о простом веществе.',
+answers: [
+'Сера – необходимый элемент питания растений.',
+'Жидкую серу хранят в обогреваемых резервуарах и транспортируют в цистернах.',
+'Серу применяют для вулканизации каучука.',
+'Сера входит в состав многих белков.',
+'В рацион питания следует включать продукты, богатые серой.'
+],
+correct: [1, 2],
+hint: 'Простое вещество S — сера. Ищите утверждения о хранении, транспортировке, применении серы как вещества.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится об азоте как о простом веществе.',
+answers: [
+'Взрывчатые вещества содержат азот.',
+'Воздух содержит 78% азота по объёму.',
+'Азот получают фракционной перегонкой жидкого воздуха.',
+'Азот входит в состав белков.',
+'Многие красители содержат азот.'
+],
+correct: [1, 2],
+hint: 'Простое вещество N₂ — газ. Утверждения 2 и 3 о газообразном азоте в воздухе и его получении.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о железе как о простом веществе.',
+answers: [
+'Железная окалина состоит из железа и кислорода.',
+'Водопроводная труба сделана из оцинкованного железа.',
+'Железо получают восстановлением его оксидов.',
+'Железо, углерод и кислород входят в состав минерала сидерита.',
+'Соединения двухвалентного железа – хорошие восстановители.'
+],
+correct: [1, 2],
+hint: 'Простое вещество Fe — металл железо. Утверждения о применении железа как металла и его получении.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о кальции как о простом веществе.',
+answers: [
+'Кальций имеет небольшую плотность, и резать его можно ножом.',
+'Кальций занимает пятое место по распространённости в природе.',
+'Кальций способен вытеснять водород из воды.',
+'Жёсткость воды обусловлена наличием в воде солей кальция.',
+'Недостаток кальция в костях человека вызывает заболевания.'
+],
+correct: [0, 2],
+hint: 'Простое вещество — металл Ca. Ищите утверждения о физических/химических свойствах самого кальция.'
+},
+{
+question: 'Выберите два утверждения, в которых выделенное жирным шрифтом слово обозначает простое вещество.',
+answers: [
+'Многие металлы вытесняют водород из кислот.',
+'Метан образует взрывоопасную смесь с воздухом.',
+'В состав многих парфюмерных изделий входит глицерин.',
+'В сельском хозяйстве серу применяют в качестве фунгицида.',
+'Для производства удобрений используют аммиак.'
+],
+correct: [0, 3],
+hint: 'Простое вещество — состоит из одного элемента. Водород (H₂) и сера (S) — простые вещества.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о меди как о простом веществе.',
+answers: [
+'Медь не реагирует с разбавленной серной кислотой.',
+'В организме взрослого человека содержится до 80 мг меди.',
+'Массовая доля меди в малахите составляет 58%.',
+'Большинство солей двухвалентной меди имеют синюю или зелёную окраску.',
+'Медь широко применяется в электротехнике.'
+],
+correct: [0, 4],
+hint: 'Простое вещество Cu — металл медь. Ищите утверждения о свойствах и применении металлической меди.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о кальции как о простом веществе.',
+answers: [
+'При реакции кальция с водой образуется щёлочь.',
+'Кальций быстро покрывается оксидной плёнкой.',
+'Кальций входит в состав известняка.',
+'Массовая доля кальция в негашёной извести составляет 71,4%.',
+'Важным источником кальция среди продуктов питания служит творог.'
+],
+correct: [0, 1],
+hint: 'Простое вещество — металл Ca. Утверждения о химических свойствах кальция-металла.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится об алюминии как о химическом элементе.',
+answers: [
+'Алюминий используют в самолётостроении.',
+'Алюминий в соединениях проявляет постоянную степень окисления +3.',
+'Алюминий состоит практически полностью из единственного стабильного изотопа ²Al.',
+'Алюминий растворяется в щелочах.',
+'Алюминий образует сплавы почти со всеми металлами.'
+],
+correct: [1, 2],
+hint: 'Химический элемент — это вид атомов. Утверждения о степени окисления и изотопах говорят об элементе.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о кальции как о химическом элементе.',
+answers: [
+'Кальций получают электролизом расплавов солей.',
+'Кальций занимает пятое место по распространённости в природе.',
+'В состав зубной пасты входит кальций.',
+'Кальций – серебристо-серый металл, но на воздухе он быстро темнеет.',
+'Кальций активно взаимодействует с водой и кислотами.'
+],
+correct: [1, 2],
+hint: 'Химический элемент Ca — атомы кальция. Ищите утверждения о содержании в веществах, распространённости.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о кобальте как о простом веществе.',
+answers: [
+'Кобальт входит в состав витамина B₁₂.',
+'На каждый килограмм массы тела человека приходится 0,2 мг кобальта.',
+'В питьевой воде допустимое содержание кобальта составляет 0,01 мг/л.',
+'Кобальт применяют при изготовлении химически стойких сплавов.',
+'При нагревании кобальт реагирует с галогенами.'
+],
+correct: [3, 4],
+hint: 'Простое вещество — металл Co. Ищите утверждения о применении и свойствах металлического кобальта.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится об азоте как о химическом элементе.',
+answers: [
+'Растениям необходим азот для роста зелёной массы.',
+'Взрывчатые вещества содержат азот.',
+'Шарики для настольного тенниса заполняют азотом.',
+'Азот получают фракционной перегонкой жидкого воздуха.',
+'Азот используют как инертную среду для технологических процессов.'
+],
+correct: [0, 1],
+hint: 'Химический элемент N — атомы азота. Ищите утверждения о содержании азота в веществах, растениях.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится об алюминии как о простом веществе.',
+answers: [
+'Сульфид алюминия используется для производства сероводорода.',
+'Основной недостаток алюминия как конструкционного материала – малая прочность.',
+'В природе алюминий встречается почти исключительно в виде соединений.',
+'Алюминий применяют для восстановления редких металлов из их оксидов или галогенидов.',
+'Концентрация алюминия в морской воде незначительна.'
+],
+correct: [1, 3],
+hint: 'Простое вещество — металл Al. Утверждения о свойствах и применении металлического алюминия.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится об азоте как о химическом элементе.',
+answers: [
+'Азот химически весьма инертен.',
+'Азот входит в состав белков и нуклеиновых кислот.',
+'В лабораториях азот получают реакцией разложения нитрита аммония.',
+'Соединения азота в степени окисления –3 представлены нитридами, из которых практически наиболее важен аммиак.',
+'Азот является основным компонентом воздуха.'
+],
+correct: [1, 3],
+hint: 'Химический элемент N — атомы. Ищите утверждения о содержании в соединениях, степени окисления.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о магнии как о простом веществе.',
+answers: [
+'В состав доломита входит магний.',
+'Магний нельзя получить электролизом водного раствора его солей.',
+'Бромид магния хорошо растворяется в воде.',
+'Электроотрицательность магния мала.',
+'Магний – сильный восстановитель.'
+],
+correct: [1, 4],
+hint: 'Простое вещество — металл Mg. Ищите утверждения о получении и химических свойствах металлического магния.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о фосфоре как о простом веществе.',
+answers: [
+'Фосфор образует около 190 минералов, важнейшим из которых является апатит.',
+'Белый фосфор ядовит.',
+'Семена тыквы и подсолнечника отличаются высоким содержанием фосфора.',
+'Чёрный фосфор проводит электрический ток.',
+'В составе костей скелета человека содержится примерно 85% находящегося в организме фосфора.'
+],
+correct: [1, 3],
+hint: 'Простое вещество — фосфор P (белый, красный, чёрный). Ищите утверждения о свойствах аллотропных модификаций.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о кальции как о химическом элементе.',
+answers: [
+'Кальций имеет небольшую плотность, и его можно резать ножом.',
+'Кальций в природе встречается в виде шести изотопов.',
+'Кальций способен вытеснять водород из воды.',
+'Кальций получают электролизом расплавов солей.',
+'Недостаток кальция в костях человека вызывает заболевания.'
+],
+correct: [1, 4],
+hint: 'Химический элемент Ca — атомы кальция. Утверждения об изотопах и содержании в организме.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о натрии как о простом веществе.',
+answers: [
+'Как и все щелочные металлы, натрий является сильным восстановителем.',
+'Натрий входит в состав поваренной соли.',
+'Плотность натрия примерно равна плотности воды.',
+'Натрий – важный компонент питания растений.',
+'В морской воде много натрия.'
+],
+correct: [0, 2],
+hint: 'Простое вещество — металл Na. Ищите утверждения о физических/химических свойствах металлического натрия.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о фосфоре как о химическом элементе.',
+answers: [
+'В природе в свободном состоянии фосфор не встречается из-за высокой химической активности.',
+'Фосфор умели получать ещё арабские алхимики.',
+'Белый фосфор имеет молекулярную кристаллическую решётку.',
+'Фосфор содержится в тканях живых организмов.',
+'При физических нагрузках возрастает потребность человека в фосфоре.'
+],
+correct: [3, 4],
+hint: 'Химический элемент P — атомы фосфора. Ищите утверждения о содержании в организмах, потребности.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится об алюминии как о химическом элементе.',
+answers: [
+'Алюминий относится к группе лёгких металлов.',
+'Алюминий по распространённости в земной коре занимает третье место, уступая только кислороду и кремнию.',
+'Алюминий образует прочную химическую связь с кислородом.',
+'Алюминий практически не подвержен коррозии.',
+'До конца XIX в. алюминий в промышленных масштабах не производился.'
+],
+correct: [1, 2],
+hint: 'Химический элемент Al — атомы. Утверждения о распространённости элемента и образовании связей.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о фосфоре как о химическом элементе.',
+answers: [
+'Белый фосфор плохо растворяется в воде.',
+'Фосфор входит в состав фосфолипидов – важнейших биологических соединений.',
+'Фосфор реагирует с концентрированной азотной кислотой с выделением бурого газа.',
+'Красный фосфор применяется в производстве спичек.',
+'Двойной суперфосфат применяют для устранения недостатка фосфора в почве.'
+],
+correct: [1, 4],
+hint: 'Химический элемент P — атомы. Ищите утверждения о содержании в соединениях, удобрениях.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о железе как о простом веществе.',
+answers: [
+'Люди использовали метеоритное железо, прежде чем освоили искусство выплавки железа из руды.',
+'В состав миоглобина – кислородсвязывающего белка скелетных мышц и мышцы сердца – входит двухвалентное железо.',
+'В морской воде железо быстро подвергается коррозии.',
+'Одна порция куриного мяса содержит 8% дневной нормы железа.',
+'Шпинат – один из лучших растительных источников железа.'
+],
+correct: [0, 2],
+hint: 'Простое вещество — металл Fe. Утверждения о применении металлического железа и его коррозии.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о сере как о простом веществе.',
+answers: [
+'Большие скопления самородной серы встречаются в местах вулканической активности.',
+'При нагревании сера реагирует с фосфором.',
+'Сера участвует в образовании третичной структуры белка.',
+'При недостатке серы в организме волосы становятся сухими, тусклыми и ломкими.',
+'Сера входит в состав олеума.'
+],
+correct: [0, 1],
+hint: 'Простое вещество S — сера. Ищите утверждения о встречаемости и химических свойствах серы.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о кальции как о простом веществе.',
+answers: [
+'Кальций при нагревании реагирует с кремнием.',
+'Максимальная безопасная доза кальция для взрослых составляет 2500 мг в сутки.',
+'В организме человека и других позвоночных большая часть кальция находится в костях скелета и зубах.',
+'Длительный дефицит кальция в младенчестве вызывает рахит.',
+'Кальций – щёлочноземельный металл серебристо-серого цвета.'
+],
+correct: [0, 4],
+hint: 'Простое вещество — металл Ca. Ищите утверждения о химических свойствах и физических характеристиках металла.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о хлоре как о химическом элементе.',
+answers: [
+'В организме человека и животных хлор содержится в основном в межклеточных жидкостях.',
+'Температура кипения хлора составляет –34 °C.',
+'Хлор непосредственно реагирует почти со всеми металлами.',
+'Хлор вытесняет бром и йод из их соединений с водородом и металлами.',
+'Минимальная потребность человека в хлоре составляет около 800 мг в сутки.'
+],
+correct: [0, 4],
+hint: 'Химический элемент Cl — атомы хлора. Ищите утверждения о содержании в организме, потребности.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о меди как о химическом элементе.',
+answers: [
+'Медь обладает высокой тепло- и электропроводностью.',
+'В древности медь применялась в виде сплава с оловом (бронзы).',
+'В соединениях медь проявляет две степени окисления: +1 и +2.',
+'При недостатке меди в организме снижается активность ферментных систем и замедляется белковый обмен.',
+'Медь широко используется в электротехнике.'
+],
+correct: [2, 3],
+hint: 'Химический элемент Cu — атомы меди. Ищите утверждения о степенях окисления, содержании в организме.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о железе как о простом веществе.',
+answers: [
+'Степень окисления железа в пирите равна +2.',
+'В состав стали входит не менее 45% железа и от 0,02% до 2,14% углерода.',
+'Железо, кремний и кислород входят в состав минерала фаялит.',
+'В Периодической системе химических элементов Д.И. Менделеева железо находится в 4 периоде, в побочной подгруппе VIII группы.',
+'Плотность железа при нормальных условиях составляет 7,874 г/см³.'
+],
+correct: [1, 4],
+hint: 'Простое вещество — металл Fe. Ищите утверждения о составе сплавов и физических свойствах железа.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о фосфоре как о химическом элементе.',
+answers: [
+'Фосфор входит в состав белков и других важнейших органических соединений.',
+'Белый фосфор плохо растворяется в воде, но легкорастворим в органических растворителях.',
+'При хранении на воздухе красный фосфор в присутствии влаги постепенно окисляется.',
+'При недостатке фосфора в организме развиваются различные заболевания костей.',
+'Красный фосфор применяют в производстве спичек.'
+],
+correct: [0, 3],
+hint: 'Химический элемент P — атомы. Ищите утверждения о содержании в соединениях, организме.'
+},
+{
+question: 'Выберите два утверждения, в которых говорится о натрии как о простом веществе.',
+answers: [
+'В состав поваренной соли входит натрий.',
+'Натрий – сильный восстановитель.',
+'Фторид натрия содержит по массе натрия больше, чем его бромид.',
+'Электроотрицательность натрия мала.',
+'Натрий получают электролизом расплавов солей.'
+],
+correct: [1, 4],
+hint: 'Простое вещество — металл Na. Ищите утверждения о химических свойствах и получении металлического натрия.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о магнии как о простом веществе.',
+answers: [
+'Кристаллы фторида магния используют для изготовления оптических линз.',
+'Содержание магния в морской воде составляет 0,13% по массе.',
+'В соединениях магний проявляет положительную степень окисления.',
+'Магний используют для получения лёгких и сверхлёгких литейных сплавов.',
+'Магний вытесняет водород из воды.'
+],
+correct: [3, 4],
+hint: 'Простое вещество — металл Mg. Ищите утверждения о применении и химических свойствах металлического магния.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о хлоре как о химическом элементе.',
+answers: [
+'При реакции хлора с железом образуется хлорид железа(III).',
+'Впервые хлор был получен в 1774 г. шведским учёным К. Шееле.',
+'Хлор – самый распространённый галоген в земной коре.',
+'Хлор входит в состав поваренной соли.',
+'Хлор непосредственно реагирует почти со всеми металлами.'
+],
+correct: [2, 3],
+hint: 'Химический элемент Cl — атомы хлора. Ищите утверждения о распространённости и содержании в соединениях.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится об алюминии как о химическом элементе.',
+answers: [
+'Реакция алюминия с кислородом сопровождается выделением большого количества энергии.',
+'Алюминий покрыт оксидной плёнкой.',
+'По распространённости в природе алюминий занимает первое место среди металлов.',
+'Высшая степень окисления алюминия равна +3.',
+'Алюминий получают электролизом расплава его оксида в криолите.'
+],
+correct: [2, 3],
+hint: 'Химический элемент Al — атомы. Ищите утверждения о распространённости элемента и степени окисления.'
+},
+{
+question: 'Выберите два высказывания, в которых говорится о водороде как о простом веществе.',
+answers: [
+'При взаимодействии активных металлов с водой выделяется водород.',
+'В соединениях с металлами водород проявляет отрицательную степень окисления.',
+'В минералах водород содержится в составе иона аммония, гидроксид-иона и воды.',
+'Водород иногда располагают в VIIA группе Периодической системы Д.И. Менделеева.',
+'Плотность водорода составляет 0,08987 г/л (н.у.).'
+],
+correct: [0, 4],
+hint: 'Простое вещество H₂ — газ. Ищите утверждения о получении и физических свойствах водорода-газа.'
+}
+],
+'1.3': [
+{
+type: 'matching',
+question: 'Установите соответствие между формулой вещества и степенью окисления серы в данном веществе.',
+items: [
+{ label: 'A', text: 'Li₂SO₃' },
+{ label: 'Б', text: '(NH₄)₂SO₄' },
+{ label: 'B', text: 'FeS' }
+],
+options: [
+{ number: '1', text: '-2' },
+{ number: '2', text: '+4' },
+{ number: '3', text: '+6' }
+],
+correct: [
+{ item: 0, answer: 1 },
+{ item: 1, answer: 2 },
+{ item: 2, answer: 0 }
+],
+hint: 'Степень окисления серы: в сульфитах (SO₃²⁻) = +4, в сульфатах (SO₄²⁻) = +6, в сульфидах (S²⁻) = -2'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между формулой вещества и степенью окисления марганца в данном веществе.',
+items: [
+{ label: 'A', text: 'Mn₂O₃' },
+{ label: 'Б', text: 'Mn(OH)₂' },
+{ label: 'B', text: 'Na₂MnO₄' }
+],
+options: [
+{ number: '1', text: '+2' },
+{ number: '2', text: '+3' },
+{ number: '3', text: '+6' }
+],
+correct: [
+{ item: 0, answer: 1 },
+{ item: 1, answer: 0 },
+{ item: 2, answer: 2 }
+],
+hint: 'Степень окисления Mn: в Mn₂O₃ = +3, в Mn(OH)₂ = +2, в Na₂MnO₄ (манганат) = +6'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между формулой вещества и степенью окисления азота в данном веществе.',
+items: [
+{ label: 'A', text: 'HNO₂' },
+{ label: 'Б', text: '(NH₄)₂S' },
+{ label: 'B', text: 'Fe(NO)₂' }
+],
+options: [
+{ number: '1', text: '-3' },
+{ number: '2', text: '+3' },
+{ number: '3', text: '+5' }
+],
+correct: [
+{ item: 0, answer: 1 },
+{ item: 1, answer: 0 },
+{ item: 2, answer: 2 }
+],
+hint: 'Степень окисления N: в HNO₂ (азотистая к-та) = +3, в NH⁺ = -3, в NO₃ = +5'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между формулой вещества и степенью окисления углерода в данном веществе.',
+items: [
+{ label: 'A', text: 'CO' },
+{ label: 'Б', text: 'FeCO₃' },
+{ label: 'B', text: 'CaC₂' }
+],
+options: [
+{ number: '1', text: '-1' },
+{ number: '2', text: '+2' },
+{ number: '3', text: '+4' }
+],
+correct: [
+{ item: 0, answer: 1 },
+{ item: 1, answer: 2 },
+{ item: 2, answer: 0 }
+],
+hint: 'Степень окисления C: в CO = +2, в CO₃²⁻ = +4, в карбидах CaC₂ = -1'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между формулой вещества и степенью окисления марганца в данном веществе.',
+items: [
+{ label: 'A', text: 'Mn₂O₇' },
+{ label: 'Б', text: 'HMnO₄' },
+{ label: 'B', text: 'K₂MnO₄' }
+],
+options: [
+{ number: '1', text: '+6' },
+{ number: '2', text: '+7' }
+],
+correct: [
+{ item: 0, answer: 1 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 0 }
+],
+hint: 'Степень окисления Mn: в Mn₂O₇ = +7, в HMnO₄ (перманганат) = +7, в K₂MnO₄ (манганат) = +6'
+}
+],
+'1.4': [
+{
+type: 'input',
+text: 'Кальциевая селитра (нитрат кальция, Ca(NO₃)₂) – соль азотной кислоты, которая широко используется в качестве азотного и кальциевого удобрения. При подкормках бахчевых культур в почву нужно вносить 4 г азота на 1 м².',
+question: 'Вычислите массовую долю (в процентах) азота в нитрате кальция Ca(NO₃)₂. Запишите число с точностью до целых.',
+correct: 17,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'Найдите молярную массу Ca(NO)₂, затем массовую долю азота: ω = (2×Ar(N))/Mr × 100%'
+},
+{
+type: 'input',
+text: 'Основным компонентом некоторого железосодержащего препарата является тетрагидрат хлорида железа(II) (FeCl₂·4H₂O). Железо – важный элемент в составе гемоглобина крови, поэтому тетрагидрат хлорида железа прописывают для восполнения дефицита железа в организме.',
+question: 'Вычислите в процентах массовую долю железа в тетрагидрате хлорида железа(II) FeCl₂·4H₂O. Запишите число с точностью до целых.',
+correct: 28,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'Учтите воду кристаллизации. Mr = Ar(Fe) + 2×Ar(Cl) + 4×Mr(H₂O)'
+},
+{
+type: 'input',
+text: 'Основным компонентом некоторого железосодержащего препарата является тетрагидрат хлорида железа(II) (FeCl₂·4H₂O). В каждой капсуле массой 250 мг содержится 250 мг тетрагидрата хлорида железа(II).',
+question: 'Какую массу железа (в миллиграммах) человек получает в сутки при приёме одной капсулы, в которой содержится 250 мг тетрагидрата хлорида железа(II)? Запишите число с точностью до целых.',
+correct: 70,
+tolerance: 1,
+precision: 0,
+unit: 'мг',
+hint: 'Используйте массовую долю железа из предыдущей задачи: m(Fe) = m(соли) × ω(Fe)'
+},
+{
+type: 'input',
+text: 'Сульфат цинка – химическое соединение (ZnSO₄), соль серной кислоты. Цинк в организме человека участвует в расщеплении жиров, белков и углеводов. Недостаток цинка в организме может быть восполнен приёмом поливитаминных комплексов. Упаковка поливитаминного комплекса Дуовит включает в себя 20 драже, содержащих в том числе и сульфат цинка. В состав одного драже комплекса входит 4 мг цинка.',
+question: 'Вычислите массовую долю (в процентах) цинка в сульфате цинка ZnSO₄. Запишите число с точностью до десятых.',
+correct: 40.4,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(Zn) = Ar(Zn)/Mr(ZnSO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Двойной суперфосфат (дигидрофосфат кальция, Ca(H₂PO)₂) – широко используемое фосфорное и кальциевое удобрение. При подкормках томатов в почву вносят 10 г кальция на 1 м².',
+question: 'Вычислите массовую долю (в процентах) кальция в дигидрофосфате кальция Ca(H₂PO₄)₂. Запишите число с точностью до целых.',
+correct: 17,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'Mr = Ar(Ca) + 4×Ar(H) + 2×Ar(P) + 8×Ar(O)'
+},
+{
+type: 'input',
+text: 'Препараты фтора являются эффективными средствами профилактики кариеса зубов. Монофторофосфат натрия – неорганическое соединение, соль натрия и фторофосфорной кислоты с формулой Na₂PO₃F – входит в состав зубных паст. В 150 г фторированной зубной пасты содержится 78 мг монофторофосфата натрия.',
+question: 'Вычислите в процентах массовую долю фтора в монофторофосфате натрия Na₂PO₃F. Запишите число с точностью до десятых.',
+correct: 13.2,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(F) = Ar(F)/Mr(Na₂PO₃F) × 100%'
+},
+{
+type: 'input',
+text: 'Препараты фтора являются эффективными средствами профилактики кариеса зубов. Монофторофосфат натрия – неорганическое соединение, соль натрия и фторофосфорной кислоты с формулой Na₂PO₃F – входит в состав зубных паст. В 150 г фторированной зубной пасты содержится 78 мг монофторофосфата натрия.',
+question: 'Определите массу (в миллиграммах) фтора, который содержится в тюбике зубной пасты массой 100 г. Запишите число с точностью до целых.',
+correct: 7,
+tolerance: 1,
+precision: 0,
+unit: 'мг',
+hint: 'Сначала найдите массу Na₂PO₃F в 100 г пасты, затем массу фтора используя массовую долю'
+},
+{
+type: 'input',
+text: 'Двойной суперфосфат (дигидрофосфат кальция, Ca(H₂PO₄)₂) – широко используемое фосфорное удобрение. При подкормке кустов розы двойным суперфосфатом в почву вносят 15 г фосфора на 1 м².',
+question: 'Вычислите в процентах массовую долю фосфора в дигидрофосфате кальция Ca(H₂PO₄)₂. Запишите число с точностью до десятых.',
+correct: 26.5,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(P) = 2×Ar(P)/Mr(Ca(H₂PO)₂) × 100%'
+},
+{
+type: 'input',
+text: 'Основным компонентом некоторого железосодержащего препарата является фумарат железа (FeH₂C₄O₄). Железо – важный элемент в составе гемоглобина крови, поэтому данный препарат прописывают для восполнения дефицита железа в организме. В каждой капсуле массой 250 мг содержится 200 мг фумарата железа, а остальное – не содержащие железа примеси.',
+question: 'Какую массу железа (в миллиграммах) человек получает в сутки при приёме одной капсулы описанного препарата? Запишите число с точностью до целых.',
+correct: 66,
+tolerance: 1,
+precision: 0,
+unit: 'мг',
+hint: 'Найдите массовую долю Fe в фумарате, затем умножьте на массу фумарата (200 мг)'
+},
+{
+type: 'input',
+text: 'Сульфат меди(II) – химическое соединение (CuSO₄), соль серной кислоты, которое используется в качестве средств защиты растений, а также входит в состав многих витаминных комплексов, например Дуовита. Упаковка поливитаминного комплекса дуовит включает в себя 20 драже, содержащих в том числе и сульфат меди(II). В состав одного драже комплекса входит 1 мг меди.',
+question: 'Вычислите массовую долю (в процентах) меди в сульфате меди(II) CuSO₄. Запишите число с точностью до целых.',
+correct: 40,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'ω(Cu) = Ar(Cu)/Mr(CuSO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Фосфат кальция (Ca₃(PO)₂) – это кальциевая соль ортофосфорной кислоты, применяется для подкормки сельскохозяйственных животных, способствует лучшему усвоению кормов, нормальному росту и развитию животных.',
+question: 'Вычислите массовую долю (в процентах) кальция в фосфате кальция Ca₃(PO₄)₂. Запишите число с точностью до десятых.',
+correct: 38.7,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(Ca) = 3×Ar(Ca)/Mr(Ca₃(PO₄)₂) × 100%'
+},
+{
+type: 'input',
+text: 'Фосфат кальция (Ca₃(PO₄)₂) – это кальциевая соль ортофосфорной кислоты, применяется для подкормки сельскохозяйственных животных. Суточная норма фосфата кальция в рационе крупного рогатого скота составляет 105 г.',
+question: 'Вычислите, сколько граммов кальция поступает в организм животных в течение четырёх недель. Запишите число с точностью до целых.',
+correct: 1138,
+tolerance: 10,
+precision: 0,
+unit: 'г',
+hint: 'Найдите общую массу фосфата кальция за 28 дней, затем массу кальция'
+},
+{
+type: 'input',
+text: 'Перманганат калия (KMnO₄) – известное и широко применяемое в медицине и быту антисептическое средство. Перманганат калия также применяется как удобрение для устранения дефицита калия и марганца у садовых и огородных культур.',
+question: 'Вычислите массовую долю (в процентах) марганца в перманганате калия KMnO₄. Запишите число с точностью до целых.',
+correct: 35,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'ω(Mn) = Ar(Mn)/Mr(KMnO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Сульфат калия (K₂SO₄) широко используется в сельском хозяйстве в качестве минерального удобрения. Наличие калия (как микроэлемента) в почве очень важно для растений. Он регулирует их рост и развитие, важен для хорошего плодоношения. При подкормках овощных культур в почву нужно вносить 24 г калия на 100 м².',
+question: 'Вычислите массовую долю (в процентах) калия в сульфате калия K₂SO₄. Запишите число с точностью до целых.',
+correct: 45,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'ω(K) = 2×Ar(K)/Mr(K₂SO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Дигидроортофосфат калия (техническое название – монофосфат калия) – соединение, имеющее химическую формулу KH₂PO₄. Это вещество широко используется в сельском хозяйстве в качестве комплексного калийно-фосфорного удобрения. При подкормках овощных и цветочных культур в почву вносят 68 г дигидроортофосфата калия на 40 м².',
+question: 'Вычислите массовую долю (в процентах) фосфора в дигидроортофосфате калия KH₂PO₄. Запишите число с точностью до десятых.',
+correct: 22.8,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(P) = Ar(P)/Mr(KH₂PO) × 100%'
+},
+{
+type: 'input',
+text: 'Диаммофос (гидрофосфат аммония, (NH₄)₂HPO₄) – широко используемое азотное удобрение. При подкормке клубники этим удобрением необходимо вносить 20 г азота на 1 м² почвы.',
+question: 'Вычислите в процентах массовую долю азота в гидрофосфате аммония (NH₄)₂HPO₄. Запишите число с точностью до целых.',
+correct: 21,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'ω(N) = 2×Ar(N)/Mr((NH₄)₂HPO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Аммиачная селитра (нитрат аммония, NHNO₃) – широко используемое азотное удобрение. При подкормках клубники этим удобрением в почву нужно вносить 8 г азота на 1 м².',
+question: 'Вычислите массовую долю (в процентах) азота в нитрате аммония NH₄NO. Запишите число с точностью до целых.',
+correct: 35,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'ω(N) = 2×Ar(N)/Mr(NH₄NO₃) × 100%'
+},
+{
+type: 'input',
+text: 'Стекло – один из самых древних материалов. Способами изготовления различных видов стёкол занимался ещё М.В. Ломоносов: он предложил метод получения стекла, который заключался в плавлении смеси кварцевого песка, соды и известняка. Позднее был разработан метод получения тугоплавкого стекла, в котором вместо соды использовались оксид свинца(II) и поташ. В результате получалось соединение оксидов K₂O·PbO·6SiO₂, молекулярную формулу которого можно представить брутто-формулой K₂PbSi₆O₁₄.',
+question: 'Вычислите в процентах массовую долю калия в стекле указанного состава K₂PbSi₆O₁₄. Запишите число с точностью до десятых.',
+correct: 11.5,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'Найдите молярную массу всего соединения, затем массовую долю калия'
+},
+{
+type: 'input',
+text: 'Стекло – один из самых древних материалов. Способами изготовления различных видов стёкол занимался ещё М.В. Ломоносов. В результате получалось соединение оксидов K₂O·PbO·6SiO₂, молекулярную формулу которого можно представить брутто-формулой K₂PbSi₆O₁₄.',
+question: 'Вычислите массу указанного стекла (в килограммах), если в нём содержится 4.6 кг калия. Запишите число с точностью до целых.',
+correct: 40,
+tolerance: 1,
+precision: 0,
+unit: 'кг',
+hint: 'm(стекла) = m(K) / ω(K)'
+},
+{
+type: 'input',
+text: 'Железо – один из важнейших микроэлементов, необходимый для всех живых организмов. Для восполнения недостатка железа в организме человека рекомендован приём витаминно-минеральных комплексов, содержащих сульфат железа(II) (FeSO₄). При некоторых заболеваниях необходим ежесуточный приём 20 мг железа в составе витаминно-минеральных комплексов.',
+question: 'Вычислите массовую долю (в процентах) железа в сульфате железа(II) FeSO₄. Запишите число с точностью до десятых.',
+correct: 36.8,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(Fe) = Ar(Fe)/Mr(FeSO) × 100%'
+},
+{
+type: 'input',
+text: 'Кальций – один из важнейших макроэлементов, необходимый для всех живых организмов. Для восполнения недостатка кальция в организме человека рекомендован приём витаминно-минеральных комплексов, содержащих гидрофосфат кальция (CaHPO₄). При некоторых заболеваниях необходим ежесуточный приём 400 мг кальция в составе витаминно-минеральных комплексов.',
+question: 'Вычислите массовую долю (в процентах) кальция в гидрофосфате кальция CaHPO₄. Запишите число с точностью до десятых.',
+correct: 29.4,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(Ca) = Ar(Ca)/Mr(CaHPO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Сульфат железа(II) (FeSO₄) – это соль серной кислоты; в медицине используется в качестве лекарственного средства для лечения и профилактики железодефицитной анемии.',
+question: 'Вычислите массовую долю (в процентах) железа в сульфате железа(II) FeSO₄. Запишите число с точностью до сотых.',
+correct: 36.84,
+tolerance: 0.05,
+precision: 2,
+unit: '%',
+hint: 'Точный расчёт: ω(Fe) = Ar(Fe)/Mr(FeSO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Сульфат железа(II) (FeSO₄) – это соль серной кислоты; в медицине используется в качестве лекарственного средства для лечения и профилактики железодефицитной анемии. В одном драже некоторого препарата железа содержится 50 мг сульфата железа(II). За время лечения человек принял 40 драже этого препарата.',
+question: 'Вычислите массу (в граммах) железа, которое поступило при этом в организм человека. Запишите число с точностью до сотых.',
+correct: 0.74,
+tolerance: 0.05,
+precision: 2,
+unit: 'г',
+hint: 'Найдите общую массу FeSO₄, затем массу железа'
+},
+{
+type: 'input',
+text: 'Калиевая селитра (нитрат калия, KNO₃) – широко используемое калийное и азотное удобрение. При подкормках цветочных культур в почву вносят 10 г калия на 1 м².',
+question: 'Вычислите массовую долю (в процентах) калия в нитрате калия KNO₃. Запишите число с точностью до десятых.',
+correct: 38.6,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(K) = Ar(K)/Mr(KNO₃) × 100%'
+},
+{
+type: 'input',
+text: 'Стекло – один из самых древних материалов. Способами изготовления различных видов стёкол занимался ещё М.В. Ломоносов: он предложил метод получения стекла, который заключался в плавлении смеси кварцевого песка, соды и известняка. Позднее был разработан метод получения тугоплавкого стекла, в котором вместо соды использовался поташ. В результате получалось соединение оксидов K₂O·CaO·6SiO₂, молекулярную формулу которого можно представить брутто-формулой K₂CaSi₆O₁₄.',
+question: 'Вычислите в процентах массовую долю калия в стекле указанного состава K₂CaSiO₁₄. Запишите число с точностью до десятых.',
+correct: 15.3,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'Найдите молярную массу K₂CaSi₆O₁₄, затем ω(K)'
+},
+{
+type: 'input',
+text: 'Стекло – один из самых древних материалов. В результате получалось соединение оксидов K₂O·CaO·6SiO₂, молекулярную формулу которого можно представить брутто-формулой K₂CaSi₆O₁₄.',
+question: 'Вычислите массу указанного стекла (в килограммах), если в нём содержится 20.6 кг калия. Запишите число с точностью до десятых.',
+correct: 134.6,
+tolerance: 0.5,
+precision: 1,
+unit: 'кг',
+hint: 'm(стекла) = m(K) / ω(K)'
+},
+{
+type: 'input',
+text: 'Калиевая селитра (нитрат калия, KNO₃) – широко используемое азотное и калийное удобрение. При подкормках овощных и цветочных культур в почву вносят 15 г азота на 1 м².',
+question: 'Вычислите массовую долю (в процентах) азота в нитрате калия KNO₃. Запишите число с точностью до десятых.',
+correct: 13.9,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(N) = Ar(N)/Mr(KNO₃) × 100%'
+},
+{
+type: 'input',
+text: 'Ацетат кальция представляет собой кальциевую соль уксусной кислоты – (CH₃COO)₂Ca. Ацетат кальция используется при производстве лавсана и ацетона, а также при приготовлении аналога сухого горючего. В промышленности используют раствор ацетата кальция, в 1 л которого содержится 30 г этой соли.',
+question: 'Вычислите массовую долю (в процентах) кальция в ацетате кальция (CHCOO)₂Ca. Запишите число с точностью до целых.',
+correct: 25,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'Mr = 2×Mr(CH₃COO) + Ar(Ca)'
+},
+{
+type: 'input',
+text: 'Дигидроортофосфат калия (техническое название – монофосфат калия) – соединение, имеющее химическую формулу KH₂PO₄. Это вещество широко используется в сельском хозяйстве в качестве комплексного калийно-фосфорного удобрения. При подкормках овощных культур в почву вносят 40 г калия на 100 м².',
+question: 'Вычислите массовую долю (в процентах) калия в дигидроортофосфате калия KH₂PO₄. Запишите число с точностью до десятых.',
+correct: 28.7,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(K) = Ar(K)/Mr(KH₂PO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Основным компонентом некоторого железосодержащего препарата является гептагидрат сульфата железа(II) (FeSO₄·7H₂O). Железо – важный элемент в составе гемоглобина крови, поэтому данный препарат прописывают для восполнения дефицита железа в организме. В каждой капсуле массой 350 мг содержится 250 мг гептагидрата сульфата железа(II), а остальное – не содержащие железа примеси.',
+question: 'Вычислите в процентах массовую долю железа в гептагидрате сульфата железа(II) FeSO₄·7H₂O. Запишите число с точностью до целых.',
+correct: 20,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'Учтите 7 молекул воды: Mr = Mr(FeSO) + 7×Mr(H₂O)'
+},
+{
+type: 'input',
+text: 'Основным компонентом некоторого железосодержащего препарата является гептагидрат сульфата железа(II) (FeSO₄·7H₂O). В каждой капсуле массой 350 мг содержится 250 мг гептагидрата сульфата железа(II), а остальное – не содержащие железа примеси.',
+question: 'Какую массу железа (в миллиграммах) человек получает в сутки при приёме одной капсулы описанного препарата? Запишите число с точностью до целых.',
+correct: 50,
+tolerance: 1,
+precision: 0,
+unit: 'мг',
+hint: 'm(Fe) = m(соли) × ω(Fe)'
+},
+{
+type: 'input',
+text: 'Медь – один из важнейших микроэлементов, необходимый для всех живых организмов. Для восполнения недостатка меди в организме человека рекомендован приём витаминно-минеральных комплексов, содержащих сульфат меди(II) (CuSO₄). При некоторых заболеваниях необходим ежесуточный приём 2 мг меди в составе витаминно-минеральных комплексов.',
+question: 'Вычислите массовую долю (в процентах) меди в сульфате меди(II) CuSO₄. Запишите число с точностью до целых.',
+correct: 40,
+tolerance: 0.5,
+precision: 0,
+unit: '%',
+hint: 'ω(Cu) = Ar(Cu)/Mr(CuSO₄) × 100%'
+},
+{
+type: 'input',
+text: 'Сульфат алюминия (Al₂(SO₄)₃) – это алюминиевая соль серной кислоты, применяется для очистки воды хозяйственно-питьевого и промышленного назначения.',
+question: 'Вычислите массовую долю (в процентах) алюминия в сульфате алюминия Al₂(SO₄)₃. Запишите число с точностью до десятых.',
+correct: 15.8,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(Al) = 2×Ar(Al)/Mr(Al₂(SO₄)₃) × 100%'
+},
+{
+type: 'input',
+text: 'Сульфат алюминия (Al₂(SO₄)₃) – это алюминиевая соль серной кислоты, применяется для очистки воды хозяйственно-питьевого и промышленного назначения. В 1 л раствора сульфата алюминия, приготовленного для очистки воды, содержится 2 мг алюминия.',
+question: 'Вычислите, сколько граммов сульфата алюминия потребуется для приготовления 300 л такого раствора. Запишите число с точностью до десятых.',
+correct: 3.8,
+tolerance: 0.2,
+precision: 1,
+unit: 'г',
+hint: 'Найдите общую массу Al, затем массу сульфата алюминия: m = m(Al) / ω(Al)'
+},
+{
+type: 'input',
+text: 'Препараты фтора являются эффективными средствами профилактики кариеса зубов. Фторид кальция CaF₂ входит в состав лечебно-профилактических зубных паст. В 150 г фторированной зубной пасты содержится 15 г фторида кальция.',
+question: 'Вычислите в процентах массовую долю кальция во фториде кальция CaF₂. Запишите число с точностью до десятых.',
+correct: 51.3,
+tolerance: 0.2,
+precision: 1,
+unit: '%',
+hint: 'ω(Ca) = Ar(Ca)/Mr(CaF₂) × 100%'
+},
+{
+type: 'input',
+text: 'Препараты фтора являются эффективными средствами профилактики кариеса зубов. Фторид кальция CaF₂ входит в состав лечебно-профилактических зубных паст. В 150 г фторированной зубной пасты содержится 15 г фторида кальция.',
+question: 'Определите массу (в граммах) кальция, который содержится в тюбике зубной пасты массой 150 г. Запишите число с точностью до десятых.',
+correct: 7.7,
+tolerance: 0.2,
+precision: 1,
+unit: 'г',
+hint: 'm(Ca) = m(CaF₂) × ω(Ca)'
+}
+],
+'1.6': [
+{
+question: 'Из предложенного перечня выберите схемы двух реакций, которые относятся к реакциям разложения.',
+answers: [
+'Zn + Cu(NO₃)₂ → Zn(NO₃)₂ + Cu',
+'Fe(NO)₃ → Fe₂O₃ + NO₂ + O₂',
+'Mg(OH)₂ + H₂SO₄ → MgSO₄ + H₂O',
+'NH₄NO₂ → H₂O + N₂',
+'BaCl₂ + K₂SO₄ → KCl + BaSO₄'
+],
+correct: [1, 3],
+hint: 'Реакции разложения — из одного сложного вещества образуется несколько более простых веществ.'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'K₂CO₃ (р-р) и HCl (р-р)' },
+{ label: 'Б', text: 'K₂SiO₃ (р-р) и HCl (р-р)' },
+{ label: 'B', text: 'Ca(OH)₂ (р-р) и HCl (р-р)' }
+],
+options: [
+{ number: '1', text: 'выделение газа' },
+{ number: '2', text: 'образование осадка' },
+{ number: '3', text: 'растворение осадка' },
+{ number: '4', text: 'видимые признаки реакции отсутствуют' }
+],
+correct: [
+{ item: 0, answer: 0 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 3 }
+],
+hint: 'K₂CO + HCl → выделяется CO₂; K₂SiO₃ + HCl → выпадает осадок H₂SiO₃; Ca(OH)₂ + HCl → нейтральная реакция'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция обмена.',
+answers: [
+'хлорид аммония и нитрат серебра',
+'оксид серы(IV) и кислород',
+'гидроксид калия и азотная кислота',
+'алюминий и гидроксид натрия',
+'оксид углерода(IV) и вода'
+],
+correct: [0, 2],
+hint: 'Реакции обмена происходят между двумя сложными веществами, которые обмениваются своими составными частями.'
+},
+{
+question: 'Из предложенного перечня выберите две эндотермические реакции.',
+answers: [
+'взаимодействие аммиака и кислорода',
+'разложение карбоната кальция',
+'разложение воды электрическим током',
+'окисление оксида серы(IV)',
+'взаимодействие калия и воды'
+],
+correct: [1, 2],
+hint: 'Эндотермические реакции протекают с поглощением теплоты (разложения, электролиз).'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'Zn и H₂SO₄ (разб.)' },
+{ label: 'Б', text: 'Mg(OH)₂ и H₂SO₄ (р-р)' },
+{ label: 'B', text: 'Mg(OH)₂ и HNO₃ (конц.)' }
+],
+options: [
+{ number: '1', text: 'выделение газа' },
+{ number: '2', text: 'растворение осадка с образованием бесцветного раствора' },
+{ number: '3', text: 'видимые признаки реакции отсутствуют' },
+{ number: '4', text: 'растворение осадка с образованием окрашенного раствора' }
+],
+correct: [
+{ item: 0, answer: 0 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 1 }
+],
+hint: 'Zn + H₂SO₄ → выделяется H₂; Mg(OH)₂ растворяется в кислотах с образованием бесцветного раствора.'
+},
+{
+question: 'Из предложенного перечня выберите две экзотермические реакции.',
+answers: [
+'разложение гидроксида железа(III)',
+'взаимодействие кальция и серы',
+'взаимодействие серы и кислорода',
+'разложение карбоната магния',
+'взаимодействие кислорода и азота'
+],
+correct: [1, 2],
+hint: 'Экзотермические реакции протекают с выделением теплоты (соединение, горение).'
+},
+{
+question: 'Из предложенного перечня выберите схемы двух реакций, которые относятся к реакциям разложения.',
+answers: [
+'Cu(OH)₂ → CuO + H₂O',
+'FeCl₂ + Cl₂ → FeCl₃',
+'Mg(OH)₂ + H₂SO₄ → MgSO₄ + H₂O',
+'Cu(NO₃)₂ → CuO + NO₂ + O₂',
+'BaCl₂ + K₂SO₄ → KCl + BaSO₄'
+],
+correct: [0, 3],
+hint: 'Реакции разложения — из одного вещества образуется несколько веществ.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция соединения.',
+answers: [
+'магний и нитрат железа(III)',
+'хлорид железа(II) и хлор',
+'оксид меди(II) и соляная кислота',
+'оксид углерода(II) и кислород',
+'натрий и вода'
+],
+correct: [1, 3],
+hint: 'Реакции соединения — из нескольких веществ образуется одно более сложное вещество.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция обмена.',
+answers: [
+'водород и оксид железа(III)',
+'гидроксид кальция и нитрат меди(II)',
+'гидроксид бария и азотная кислота',
+'алюминий и гидроксид натрия',
+'аммиак и азотная кислота'
+],
+correct: [1, 2],
+hint: 'Реакции обмена происходят между двумя сложными веществами с обменом составными частями.'
+},
+{
+question: 'Из предложенного перечня выберите два уравнения, соответствующих реакциям разложения.',
+answers: [
+'AgNO + NaCl → AgCl + NaNO₃',
+'2AgNO₃ + Cu → Cu(NO₃)₂ + 2Ag',
+'2AgNO₃ → 2Ag + 2NO₂ + O₂',
+'Cu(NO)₂ + 2NaOH → Cu(OH)₂ + 2NaNO₃',
+'Cu(OH)₂ → CuO + H₂O'
+],
+correct: [2, 4],
+hint: 'Реакции разложения — из одного вещества образуется несколько веществ.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция замещения.',
+answers: [
+'натрий и соляная кислота',
+'калий и кислород',
+'оксид кальция и вода',
+'кальций и вода',
+'цинк и кислород'
+],
+correct: [0, 3],
+hint: 'Реакции замещения — атомы простого вещества замещают атомы одного из элементов в сложном веществе.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция замещения.',
+answers: [
+'хлорид алюминия и калий',
+'вода и оксид хлора(VII)',
+'гидроксид алюминия и гидроксид натрия',
+'серная кислота и цинк',
+'железо и хлор'
+],
+correct: [0, 3],
+hint: 'Реакции замещения — атомы простого вещества замещают атомы в сложном веществе.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция соединения.',
+answers: [
+'магний и нитрат железа(III)',
+'водород и бром',
+'оксид меди(II) и серная кислота',
+'аммиак и азотная кислота',
+'кальций и вода'
+],
+correct: [1, 3],
+hint: 'Реакции соединения — из нескольких веществ образуется одно сложное вещество.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция замещения.',
+answers: [
+'оксид серы(VI) и гидроксид натрия',
+'железо и хлор',
+'железо и нитрат меди(II)',
+'оксид меди(II) и соляная кислота',
+'железо и серная кислота (разб.)'
+],
+correct: [2, 4],
+hint: 'Реакции замещения — атомы простого вещества замещают атомы в сложном веществе.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция обмена.',
+answers: [
+'фосфор и кислород',
+'нитрат железа(II) и гидроксид калия',
+'оксид железа(II) и водород',
+'алюминий и гидроксид натрия',
+'хлорид аммония и нитрат серебра'
+],
+correct: [1, 4],
+hint: 'Реакции обмена — два сложных вещества обмениваются своими составными частями.'
+},
+{
+question: 'Из предложенного перечня выберите две окислительно-восстановительные реакции.',
+answers: [
+'разложение гидроксида цинка',
+'разложение нитрата меди(II)',
+'взаимодействие оксида серы(IV) и оксида бария',
+'взаимодействие угарного газа и кислорода',
+'взаимодействие оксида цинка и серной кислоты'
+],
+correct: [1, 3],
+hint: 'ОВР — реакции, в которых изменяются степени окисления элементов.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает окислительно-восстановительная реакция.',
+answers: [
+'натрий и вода',
+'оксид кальция и углекислый газ',
+'аммиак и серная кислота',
+'железо и хлор',
+'оксид фосфора(V) и вода'
+],
+correct: [0, 3],
+hint: 'ОВР — реакции с изменением степеней окисления (металлы с водой, неметаллы с металлами).'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'Na₂SiO₃ (р-р) и HNO₃ (р-р)' },
+{ label: 'Б', text: 'BaCl₂ (р-р) и MgSO₄ (р-р)' },
+{ label: 'B', text: 'CaCO и HNO₃ (р-р)' }
+],
+options: [
+{ number: '1', text: 'образование осадка и выделение газа' },
+{ number: '2', text: 'видимые признаки реакции отсутствуют' },
+{ number: '3', text: 'образование осадка без выделения газа' },
+{ number: '4', text: 'растворение осадка и выделение газа' }
+],
+correct: [
+{ item: 0, answer: 2 },
+{ item: 1, answer: 2 },
+{ item: 2, answer: 3 }
+],
+hint: 'Na₂SiO₃ + HNO₃ → выпадает осадок H₂SiO₃; BaCl₂ + MgSO₄ → BaSO₄↓; CaCO₃ + HNO₃ → CO₂↑'
+},
+{
+question: 'Из предложенного перечня выберите две окислительно-восстановительные реакции.',
+answers: [
+'разложение гидроксида алюминия',
+'взаимодействие кальция и серы',
+'взаимодействие оксида серы(IV) и кислорода',
+'разложение карбоната магния',
+'взаимодействие оксида цинка и гидроксида калия'
+],
+correct: [1, 2],
+hint: 'ОВР — реакции с изменением степеней окисления (металлы с неметаллами, окисление оксидов).'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция обмена.',
+answers: [
+'калий и вода',
+'оксид серы(VI) и оксид железа(III)',
+'гидроксид меди(II) и азотная кислота',
+'алюминий и гидроксид калия',
+'гидроксид калия и нитрат магния'
+],
+correct: [2, 4],
+hint: 'Реакции обмена — два сложных вещества обмениваются составными частями.'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция соединения.',
+answers: [
+'хлорид железа(II) и хлор',
+'оксид цинка и оксид натрия',
+'оксид цинка и соляная кислота',
+'соляная кислота и кальций',
+'оксид железа(II) и водород'
+],
+correct: [0, 1],
+hint: 'Реакции соединения — из нескольких веществ образуется одно сложное вещество.'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'K₂CO₃ и Ca(OH)₂ (р-р)' },
+{ label: 'Б', text: 'NaOH (р-р) и MgSO₄ (р-р)' },
+{ label: 'B', text: 'Mg(OH)₂ и HCl (р-р)' }
+],
+options: [
+{ number: '1', text: 'образование осадка' },
+{ number: '2', text: 'растворение осадка' },
+{ number: '3', text: 'выделение газа' },
+{ number: '4', text: 'обесцвечивание раствора' }
+],
+correct: [
+{ item: 0, answer: 0 },
+{ item: 1, answer: 0 },
+{ item: 2, answer: 1 }
+],
+hint: 'K₂CO₃ + Ca(OH)₂ → CaCO₃↓; NaOH + MgSO → Mg(OH)₂↓; Mg(OH)₂ + HCl → растворяется'
+},
+{
+question: 'Из предложенного перечня выберите две пары веществ, между которыми протекает реакция замещения.',
+answers: [
+'оксид углерода(IV) и оксид кальция',
+'алюминий и нитрат меди(II)',
+'магний и соляная кислота',
+'алюминий и бром',
+'оксид меди(II) и соляная кислота'
+],
+correct: [1, 2],
+hint: 'Реакции замещения — атомы простого вещества замещают атомы в сложном веществе.'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'KI и AgNO₃' },
+{ label: 'Б', text: 'Al и NaOH (р-р)' },
+{ label: 'B', text: 'HCl и Na₂SO₃' }
+],
+options: [
+{ number: '1', text: 'выделение газа без запаха' },
+{ number: '2', text: 'выделение газа с запахом' },
+{ number: '3', text: 'выпадение белого осадка' },
+{ number: '4', text: 'выпадение жёлтого осадка' }
+],
+correct: [
+{ item: 0, answer: 3 },
+{ item: 1, answer: 0 },
+{ item: 2, answer: 1 }
+],
+hint: 'KI + AgNO₃ → AgI↓ (жёлтый); Al + NaOH → H₂↑ (без запаха); HCl + Na₂SO₃ → SO₂↑ (с запахом)'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'AlCl₃ и AgNO₃' },
+{ label: 'Б', text: 'NaHCO₃ и HNO₃' },
+{ label: 'B', text: 'NaHCO и NaOH' }
+],
+options: [
+{ number: '1', text: 'образование осадка' },
+{ number: '2', text: 'выделение бесцветного газа' },
+{ number: '3', text: 'выделение бурого газа' },
+{ number: '4', text: 'видимых признаков реакции не наблюдается' }
+],
+correct: [
+{ item: 0, answer: 0 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 3 }
+],
+hint: 'AlCl₃ + AgNO₃ → AgCl↓; NaHCO₃ + HNO₃ → CO₂↑; NaHCO₃ + NaOH → без видимых признаков'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'AgNO₃ (р-р) и LiCl (р-р)' },
+{ label: 'Б', text: 'FeCl₃ (р-р) и KOH (р-р)' },
+{ label: 'B', text: 'Al₂(SO₄)₃ (р-р) и Ba(OH)₂ (р-р)' }
+],
+options: [
+{ number: '1', text: 'видимые признаки реакции отсутствуют' },
+{ number: '2', text: 'образование бурого осадка' },
+{ number: '3', text: 'растворение осадка' },
+{ number: '4', text: 'образование белого осадка' }
+],
+correct: [
+{ item: 0, answer: 3 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 3 }
+],
+hint: 'AgNO₃ + LiCl → AgCl↓ (белый); FeCl₃ + KOH → Fe(OH)₃↓ (бурый); Al₂(SO₄)₃ + Ba(OH)₂ → BaSO₄↓ (белый)'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'KOH (р-р) и Al' },
+{ label: 'Б', text: 'BaCO₃ и HNO₃' },
+{ label: 'B', text: 'Cu и H₂SO₄ (конц.)' }
+],
+options: [
+{ number: '1', text: 'выделение бесцветного газа без запаха' },
+{ number: '2', text: 'выделение бесцветного газа с запахом' },
+{ number: '3', text: 'выделение бурого газа с запахом' },
+{ number: '4', text: 'выпадение белого осадка' }
+],
+correct: [
+{ item: 0, answer: 0 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 2 }
+],
+hint: 'KOH + Al → H₂↑ (без запаха); BaCO₃ + HNO → CO₂↑ (без запаха); Cu + H₂SO₄ (конц.) → SO₂↑ (с запахом)'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'FeI₂ (р-р) и AgNO₃ (р-р)' },
+{ label: 'Б', text: 'FeI₂ (р-р) и KOH (р-р)' },
+{ label: 'B', text: 'Fe(OH)₂ и H₂SO₄' }
+],
+options: [
+{ number: '1', text: 'выпадение белого осадка' },
+{ number: '2', text: 'выпадение жёлтого осадка' },
+{ number: '3', text: 'выпадение серо-зелёного осадка' },
+{ number: '4', text: 'растворение осадка' }
+],
+correct: [
+{ item: 0, answer: 1 },
+{ item: 1, answer: 2 },
+{ item: 2, answer: 3 }
+],
+hint: 'FeI₂ + AgNO₃ → AgI↓ (жёлтый); FeI₂ + KOH → Fe(OH)₂↓ (серо-зелёный); Fe(OH)₂ + H₂SO₄ → растворяется'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'HBr и K₂CO₃' },
+{ label: 'Б', text: 'HNO₃ и K₂SiO₃' },
+{ label: 'B', text: 'H₂SO₄ и Ba(NO₃)₂' }
+],
+options: [
+{ number: '1', text: 'выпадение белого осадка' },
+{ number: '2', text: 'выпадение желтоватого осадка' },
+{ number: '3', text: 'выпадение бесцветного желеобразного осадка' },
+{ number: '4', text: 'выделение бесцветного газа' }
+],
+correct: [
+{ item: 0, answer: 3 },
+{ item: 1, answer: 2 },
+{ item: 2, answer: 0 }
+],
+hint: 'HBr + K₂CO₃ → CO₂↑; HNO + K₂SiO₃ → H₂SiO₃↓ (желеобразный); H₂SO₄ + Ba(NO₃)₂ → BaSO₄↓ (белый)'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'K₂SO₃ и BaCl₂' },
+{ label: 'Б', text: 'FeCl₂ и Ba(OH)₂' },
+{ label: 'B', text: 'KOH и H₂SiO₃' }
+],
+options: [
+{ number: '1', text: 'выпадение белого осадка' },
+{ number: '2', text: 'выпадение бурого осадка' },
+{ number: '3', text: 'выпадение серо-зелёного осадка' },
+{ number: '4', text: 'растворение осадка' }
+],
+correct: [
+{ item: 0, answer: 0 },
+{ item: 1, answer: 2 },
+{ item: 2, answer: 3 }
+],
+hint: 'K₂SO₃ + BaCl₂ → BaSO₃↓ (белый); FeCl₂ + Ba(OH)₂ → Fe(OH)₂↓ (серо-зелёный); KOH + H₂SiO₃ → растворяется'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'BaCl₂ и AgNO₃' },
+{ label: 'Б', text: 'Na₂CO₃ и H₂SO₄' },
+{ label: 'B', text: 'Na₂S и HCl' }
+],
+options: [
+{ number: '1', text: 'выделение газа с неприятным запахом' },
+{ number: '2', text: 'выделение газа без запаха' },
+{ number: '3', text: 'выпадение белого осадка' },
+{ number: '4', text: 'растворение осадка' }
+],
+correct: [
+{ item: 0, answer: 2 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 0 }
+],
+hint: 'BaCl₂ + AgNO₃ → AgCl↓ (белый); Na₂CO₃ + H₂SO₄ → CO₂↑ (без запаха); Na₂S + HCl → H₂S↑ (с запахом)'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'NaOH (р-р) и Al' },
+{ label: 'Б', text: 'Ca(OH)₂ (р-р) и FeCl₃' },
+{ label: 'B', text: 'Ca(OH)₂ (р-р) и K₂CO₃' }
+],
+options: [
+{ number: '1', text: 'выпадение белого осадка' },
+{ number: '2', text: 'выпадение бурого осадка' },
+{ number: '3', text: 'выделение газа' },
+{ number: '4', text: 'выпадение серо-зелёного осадка' }
+],
+correct: [
+{ item: 0, answer: 2 },
+{ item: 1, answer: 1 },
+{ item: 2, answer: 0 }
+],
+hint: 'NaOH + Al → H₂↑; Ca(OH)₂ + FeCl₃ → Fe(OH)₃↓ (бурый); Ca(OH)₂ + K₂CO₃ → CaCO₃↓ (белый)'
+},
+{
+type: 'matching',
+question: 'Установите соответствие между реагирующими веществами и признаком протекающей между ними реакции.',
+items: [
+{ label: 'A', text: 'HCl и Na₂SO₃' },
+{ label: 'Б', text: 'BaCl₂ и Na₂SO₃' },
+{ label: 'B', text: 'Ba(OH)₂ и CuCl₂' }
+],
+options: [
+{ number: '1', text: 'выпадение белого осадка' },
+{ number: '2', text: 'выпадение голубого осадка' },
+{ number: '3', text: 'выпадение бурого осадка' },
+{ number: '4', text: 'выделение газа' }
+],
+correct: [
+{ item: 0, answer: 3 },
+{ item: 1, answer: 0 },
+{ item: 2, answer: 1 }
+],
+hint: 'HCl + Na₂SO₃ → SO₂↑; BaCl₂ + Na₂SO₃ → BaSO₃↓ (белый); Ba(OH)₂ + CuCl₂ → Cu(OH)₂↓ (голубой)'
+}
+]
+};
+
+let gameState = {
+currentTopic: null,
+currentQuestion: 0,
+lives: 5,
+maxLives: 5,
+selectedAnswers: [],
+answered: false,
+questions: [],
+currentInput: null
+};
+
+let audioEnabled = false;
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+function playTone(freq, type, duration, volume = 0.1) {
+if (!audioEnabled) return;
+const osc = audioContext.createOscillator();
+const gain = audioContext.createGain();
+osc.type = type;
+osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+gain.gain.setValueAtTime(volume, audioContext.currentTime);
+gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+osc.connect(gain);
+gain.connect(audioContext.destination);
+osc.start();
+osc.stop(audioContext.currentTime + duration);
+}
+
+function playClickSound() { playTone(400, 'sine', 0.1, 0.05); setTimeout(() => playTone(600, 'sine', 0.1, 0.03), 50); }
+function playCorrectSound() { playTone(523, 'sine', 0.15, 0.08); setTimeout(() => playTone(659, 'sine', 0.15, 0.08), 100); setTimeout(() => playTone(784, 'sine', 0.3, 0.08), 200); }
+function playWrongSound() { playTone(200, 'sawtooth', 0.3, 0.1); setTimeout(() => playTone(150, 'sawtooth', 0.4, 0.1), 150); }
+function playWinSound() { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => playTone(f, 'sine', 0.3, 0.1), i * 150)); }
+function playLoseSound() { [400, 350, 300, 200].forEach((f, i) => setTimeout(() => playTone(f, 'sawtooth', 0.4, 0.08), i * 200)); }
+
+function toggleAudio() {
+audioEnabled = !audioEnabled;
+document.getElementById('audioToggle').textContent = audioEnabled ? '' : '🔇';
+document.getElementById('audioToggle').classList.toggle('muted', !audioEnabled);
+if (audioEnabled) playClickSound();
+}
+
+function openTopic(n) {
+playClickSound();
+document.getElementById('mainMenu').style.display = 'none';
+document.getElementById(`topic${n}`).style.display = 'block';
+window.scrollTo(0, 0);
+}
+
+function backToMenu() {
+playClickSound();
+document.querySelectorAll('.subtopics-page, .game-screen').forEach(p => p.style.display = 'none');
+document.getElementById('mainMenu').style.display = 'block';
+document.getElementById('resultScreen').classList.remove('show');
+window.scrollTo(0, 0);
+}
+
+function openSubtopic(num) {
+playClickSound();
+alert(`Раздел ${num} — в разработке`);
+}
+
+function startGame(topicId) {
+playClickSound();
+if (!questionsDB[topicId]) {
+alert('Вопросы для этого раздела пока не добавлены');
+return;
+}
+const allQuestions = [...questionsDB[topicId]];
+for (let i = allQuestions.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i + 1));
+[allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
+}
+const selectedQuestions = allQuestions.slice(0, 5);
+gameState = {
+currentTopic: topicId,
+currentQuestion: 0,
+lives: 5,
+maxLives: 5,
+selectedAnswers: [],
+answered: false,
+questions: selectedQuestions,
+currentInput: null
+};
+document.querySelectorAll('.subtopics-page').forEach(p => p.style.display = 'none');
+document.getElementById('gameScreen').style.display = 'block';
+document.getElementById('resultScreen').classList.remove('show');
+document.getElementById('questionCard').style.display = 'block';
+document.querySelector('.game-controls').style.display = 'flex';
+document.getElementById('hintBox').classList.remove('show');
+resetHealthBar();
+loadQuestion();
+window.scrollTo(0, 0);
+}
+
+function resetHealthBar() {
+document.querySelectorAll('.health-segment').forEach(seg => seg.classList.remove('lost'));
+updateHealthCounter();
+}
+
+function updateHealthCounter() {
+document.getElementById('healthCounter').textContent = `LIVES: ${gameState.lives}/${gameState.maxLives}`;
+}
+
+function loseLife() {
+gameState.lives--;
+updateHealthCounter();
+const segments = document.querySelectorAll('.health-segment');
+const lostIndex = gameState.lives;
+if (segments[lostIndex]) segments[lostIndex].classList.add('lost');
+const vhsStatic = document.getElementById('vhsStatic');
+vhsStatic.classList.add('active');
+setTimeout(() => vhsStatic.classList.remove('active'), 300);
+playWrongSound();
+if (gameState.lives <= 0) setTimeout(() => showResult(false), 1000);
+}
+
+function loadQuestion() {
+const q = gameState.questions[gameState.currentQuestion];
+gameState.selectedAnswers = [];
+gameState.answered = false;
+gameState.currentInput = null;
+document.getElementById('questionNumber').textContent = `ЗАДАНИЕ ${gameState.currentQuestion + 1}/${gameState.questions.length}`;
+const answersList = document.getElementById('answersList');
+answersList.innerHTML = '';
+if (q.text) {
+const textDiv = document.createElement('div');
+textDiv.className = 'task-text';
+textDiv.innerHTML = `<strong style="color: var(--st-yellow);">Прочитайте текст и выполните задания.</strong><br><br>${q.text}`;
+answersList.appendChild(textDiv);
+}
+const questionDiv = document.createElement('div');
+questionDiv.className = 'question-text';
+questionDiv.textContent = q.question;
+answersList.appendChild(questionDiv);
+if (q.type === 'matching') {
+renderMatchingTask(q, answersList);
+} else if (q.type === 'input') {
+renderNumericInputTask(q, answersList);
+} else {
+renderMultipleChoiceTask(q, answersList);
+}
+document.getElementById('btnCheck').classList.remove('hidden');
+document.getElementById('btnCheck').disabled = false;
+document.getElementById('btnHint').classList.remove('hidden');
+document.getElementById('btnNext').classList.add('hidden');
+document.getElementById('hintBox').classList.remove('show');
+}
+
+function checkNumericAnswer(q) {
+if (!gameState.currentInput) return false;
+const userAnswer = parseFloat(gameState.currentInput.value);
+if (isNaN(userAnswer)) {
+alert('Пожалуйста, введите число');
+return false;
+}
+const tolerance = q.tolerance || 0.1;
+const isCorrect = Math.abs(userAnswer - q.correct) <= tolerance;
+gameState.currentInput.classList.add(isCorrect ? 'correct' : 'wrong');
+if (isCorrect) {
+playCorrectSound();
+} else {
+loseLife();
+gameState.currentInput.value = q.correct.toFixed(q.precision || 1);
+}
+return isCorrect;
+}
+
+function renderMultipleChoiceTask(q, container) {
+const answersList = document.createElement('div');
+answersList.className = 'answers-list';
+q.answers.forEach((answer, index) => {
+const option = document.createElement('div');
+option.className = 'answer-option';
+option.innerHTML = `
+<div class="answer-checkbox"></div>
+<div class="answer-text">${answer}</div>
+`;
+option.onclick = () => toggleAnswer(index, option);
+answersList.appendChild(option);
+});
+container.appendChild(answersList);
+}
+
+function renderNumericInputTask(q, container) {
+const inputContainer = document.createElement('div');
+inputContainer.className = 'numeric-input-container';
+const input = document.createElement('input');
+input.type = 'number';
+input.className = 'numeric-input';
+input.step = '0.1';
+input.placeholder = 'Введите число';
+const unit = document.createElement('span');
+unit.className = 'input-unit';
+unit.textContent = q.unit || '%';
+inputContainer.appendChild(input);
+inputContainer.appendChild(unit);
+container.appendChild(inputContainer);
+gameState.currentInput = input;
+}
+
+function renderMatchingTask(q, container) {
+const table = document.createElement('table');
+table.className = 'answers-table';
+const thead = document.createElement('thead');
+thead.innerHTML = `
+<tr>
+<th>ФОРМУЛА ВЕЩЕСТВА</th>
+<th>→</th>
+<th>ОТВЕТ</th>
+</tr>
+`;
+table.appendChild(thead);
+const tbody = document.createElement('tbody');
+q.items.forEach((item, index) => {
+const row = document.createElement('tr');
+const leftCell = document.createElement('td');
+leftCell.innerHTML = `<strong>${item.label}</strong>) ${item.text}`;
+row.appendChild(leftCell);
+const arrowCell = document.createElement('td');
+arrowCell.innerHTML = '<span class="matching-arrow">→</span>';
+row.appendChild(arrowCell);
+const rightCell = document.createElement('td');
+const select = document.createElement('select');
+select.className = 'matching-select';
+select.dataset.index = index;
+const defaultOption = document.createElement('option');
+defaultOption.value = '-1';
+defaultOption.textContent = '—';
+select.appendChild(defaultOption);
+q.options.forEach((opt, optIndex) => {
+const option = document.createElement('option');
+option.value = optIndex;
+option.textContent = `${opt.number}) ${opt.text}`;
+select.appendChild(option);
+});
+select.addEventListener('change', (e) => {
+handleMatchingChange(index, parseInt(e.target.value));
+});
+rightCell.appendChild(select);
+row.appendChild(rightCell);
+tbody.appendChild(row);
+});
+table.appendChild(tbody);
+container.appendChild(table);
+}
+
+function handleMatchingChange(itemIndex, optionIndex) {
+if (gameState.answered) return;
+gameState.selectedAnswers = gameState.selectedAnswers.filter(a => a.item !== itemIndex);
+if (optionIndex !== -1) {
+gameState.selectedAnswers.push({ item: itemIndex, answer: optionIndex });
+}
+playTone(500, 'sine', 0.05, 0.03);
+}
+
+function toggleAnswer(index, element) {
+if (gameState.answered) return;
+const pos = gameState.selectedAnswers.indexOf(index);
+if (pos > -1) {
+gameState.selectedAnswers.splice(pos, 1);
+element.classList.remove('selected');
+} else {
+gameState.selectedAnswers.push(index);
+element.classList.add('selected');
+}
+playTone(500, 'sine', 0.05, 0.03);
+}
+
+function checkAnswer() {
+    if (gameState.answered) return;
+    const q = gameState.questions[gameState.currentQuestion];
+    let isCorrect = false;
+    if (q.type === 'matching') {
+        isCorrect = checkMatchingAnswer(q);
+    } else if (q.type === 'input') {
+        isCorrect = checkNumericAnswer(q);
+    } else {
+        isCorrect = checkMultipleChoiceAnswer(q);
+    }
+    gameState.answered = true;
+    document.getElementById('btnCheck').classList.add('hidden');
+    document.getElementById('btnHint').classList.add('hidden');
+    // Показываем кнопку "Далее" если есть жизни
+    if (gameState.lives > 0) {
+        document.getElementById('btnNext').classList.remove('hidden');
+    }
+}
+
+function checkMultipleChoiceAnswer(q) {
+if (gameState.selectedAnswers.length === 0) return false;
+const correct = [...q.correct].sort();
+const selected = [...gameState.selectedAnswers].sort();
+const isCorrect = correct.length === selected.length && correct.every((v, i) => v === selected[i]);
+const options = document.querySelectorAll('.answer-option');
+options.forEach((opt, idx) => {
+if (q.correct.includes(idx)) {
+opt.classList.add('correct');
+} else if (gameState.selectedAnswers.includes(idx)) {
+opt.classList.add('wrong');
+}
+});
+if (isCorrect) {
+playCorrectSound();
+} else {
+loseLife();
+}
+return isCorrect;
+}
+
+function checkMatchingAnswer(q) {
+if (gameState.selectedAnswers.length === 0) return false;
+const userAnswers = [...gameState.selectedAnswers].sort((a, b) => a.item - b.item);
+const correctAnswers = [...q.correct].sort((a, b) => a.item - b.item);
+let allCorrect = true;
+const selects = document.querySelectorAll('.matching-select');
+selects.forEach((select, idx) => {
+const userAnswer = userAnswers.find(a => a.item === idx);
+const correctAnswer = correctAnswers.find(a => a.item === idx);
+const userValue = userAnswer ? userAnswer.answer : -1;
+const correctValue = correctAnswer ? correctAnswer.answer : -1;
+if (userValue === correctValue) {
+select.classList.add('correct');
+select.classList.remove('wrong');
+} else {
+select.classList.add('wrong');
+select.classList.remove('correct');
+allCorrect = false;
+}
+});
+if (allCorrect) {
+playCorrectSound();
+} else {
+loseLife();
+}
+return allCorrect;
+}
+
+function showHint() {
+const q = gameState.questions[gameState.currentQuestion];
+document.getElementById('hintText').textContent = q.hint;
+document.getElementById('hintBox').classList.add('show');
+playTone(700, 'sine', 0.1, 0.04);
+}
+
+function nextQuestion() {
+playClickSound();
+gameState.currentQuestion++;
+if (gameState.currentQuestion >= gameState.questions.length) showResult(true);
+else loadQuestion();
+}
+
+function showResult(won) {
+document.getElementById('questionCard').style.display = 'none';
+document.querySelector('.game-controls').style.display = 'none';
+document.getElementById('hintBox').classList.remove('show');
+const resultScreen = document.getElementById('resultScreen');
+const resultTitle = document.getElementById('resultTitle');
+const resultStats = document.getElementById('resultStats');
+resultScreen.classList.add('show');
+if (won) {
+resultTitle.textContent = '★ ПОБЕДА ★';
+resultTitle.className = 'result-title win';
+playWinSound();
+} else {
+resultTitle.textContent = '✗ ПОРАЖЕНИЕ ✗';
+resultTitle.className = 'result-title lose';
+playLoseSound();
+}
+resultStats.innerHTML = `
+Тема: <span>${gameState.currentTopic}</span><br>
+Пройдено заданий: <span>${gameState.currentQuestion}/${gameState.questions.length}</span><br>
+Осталось жизней: <span>${gameState.lives}/${gameState.maxLives}</span>
+`;
+}
+
+function restartGame() {
+playClickSound();
+startGame(gameState.currentTopic);
+}
+
+function exitGame() {
+playClickSound();
+backToMenu();
+}
+
+setInterval(() => {
+if (Math.random() > 0.95) {
+const title = document.querySelector('.main-title h1');
+if (title) {
+title.style.textShadow = `${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 10px var(--st-red), 0 0 20px var(--st-red)`;
+setTimeout(() => { title.style.textShadow = ''; }, 100);
+}
+}
+}, 2000);
+</script>
+</body>
+</html>
